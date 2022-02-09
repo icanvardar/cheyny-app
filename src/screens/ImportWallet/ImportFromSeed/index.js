@@ -11,7 +11,6 @@ import Container from "../../../components/Container";
 import Brand from "../../../components/Brand";
 import Button from "../../../components/Button";
 import CustomText from "../../../components/CustomText";
-import ProgressBar from "../../../components/ProgressBar";
 import { useTheme } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
 
@@ -212,7 +211,6 @@ const styles = StyleSheet.create({
   container: { justifyContent: "space-between" },
   infoBox: { paddingTop: SIZES.windowWidth / 20 },
   infoBoxHeader: { fontSize: SIZES.h5, paddingBottom: 12 },
-  infoBoxBody: { opacity: 0.5 },
   middleContainer: { flexGrow: 1, justifyContent: "space-between" },
   bottomContainer: { marginBottom: SIZES.windowWidth / 24 },
   passwordsContainer: {
