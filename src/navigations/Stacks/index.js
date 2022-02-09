@@ -1,25 +1,52 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import WelcomeScreen from "../../screens/Welcome";
-import CreateWalletScreen from "../../screens/CreateWallet";
+// Screens which are located in CreateWalletScreen
+import CreatePasswordScreen from "../../screens/CreateWallet/CreatePassword";
+import MnemonicsScreen from "../../screens/CreateWallet/Mnemonics";
+import VerifyMnemonicsScreen from "../../screens/CreateWallet/VerifyMnemonics";
+
 import ImportWalletScreen from "../../screens/ImportWallet";
 
 import { THEME } from "../../constants";
 
-const Stack = createNativeStackNavigator();
+const MainStack = createNativeStackNavigator();
+
+const CreateWalletStack = createNativeStackNavigator();
+
+const CreateWalletStacks = () => {
+  return (
+    <CreateWalletStack.Navigator>
+      <CreateWalletStack.Screen
+        name="Create Password"
+        options={{ headerShown: false }}
+        component={CreatePasswordScreen}
+      />
+      <CreateWalletStack.Screen name="Mnemonics" component={MnemonicsScreen} />
+      <CreateWalletStack.Screen
+        name="Verify Mnemonics"
+        component={VerifyMnemonicsScreen}
+      />
+    </CreateWalletStack.Navigator>
+  );
+};
 
 const Stacks = () => {
   return (
     <NavigationContainer theme={THEME}>
-      <Stack.Navigator>
-        <Stack.Screen
-          options={{ headerShown: false }}
+      <MainStack.Navigator>
+        <MainStack.Screen
           name="Welcome"
+          options={{ headerShown: false }}
           component={WelcomeScreen}
         />
-        <Stack.Screen name="Create Wallet" component={CreateWalletScreen} />
-        <Stack.Screen name="Import Wallet" component={ImportWalletScreen} />
-      </Stack.Navigator>
+        <MainStack.Screen
+          name="Create Wallet"
+          options={{ headerShown: false }}
+          component={CreateWalletStacks}
+        />
+        <MainStack.Screen name="Import Wallet" component={ImportWalletScreen} />
+      </MainStack.Navigator>
     </NavigationContainer>
   );
 };

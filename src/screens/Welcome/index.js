@@ -8,7 +8,7 @@ import Brand from "../../components/Brand";
 import Button from "../../components/Button";
 import CustomText from "../../components/CustomText";
 
-const Welcome = () => {
+const Welcome = ({ navigation }) => {
   const { colors } = useTheme();
 
   return (
@@ -36,7 +36,7 @@ const Welcome = () => {
           title={"Import Wallet"}
           outlined={true}
         />
-        <Button title={"Create a new wallet"} />
+        <Button onPress={() => navigation.navigate("Create Wallet")} title={"Create a new wallet"} />
       </View>
       {/* bottom part of view */}
       <View style={styles.bottomView}>
