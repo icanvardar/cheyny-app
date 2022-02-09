@@ -16,7 +16,7 @@ import Checkbox from "expo-checkbox";
 
 import { SIZES } from "../../../constants";
 
-const CreatePassword = () => {
+const CreatePassword = ({ navigation }) => {
   const { colors } = useTheme();
   const [isChecked, setChecked] = useState(false);
 
@@ -153,7 +153,15 @@ const CreatePassword = () => {
       </View>
       {/* Bottom components */}
       <View style={styles.bottomContainer}>
-        <Button disabled={!isPasswordGiven} title={"Create Password"} />
+        <Button
+          onPress={() =>
+            navigation.navigate("Mnemonics", {
+              password,
+            })
+          }
+          disabled={!isPasswordGiven}
+          title={"Create Password"}
+        />
       </View>
     </Container>
   );
@@ -178,7 +186,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 12,
     width: "100%",
-    fontSize: SIZES.p,
+    fontSize: 16,
   },
   inputInfo: { fontSize: SIZES.windowWidth / 32, opacity: 0.5 },
   checkboxContainer: {

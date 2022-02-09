@@ -22,9 +22,14 @@ const CreateWalletStacks = () => {
         options={{ headerShown: false }}
         component={CreatePasswordScreen}
       />
-      <CreateWalletStack.Screen name="Mnemonics" component={MnemonicsScreen} />
+      <CreateWalletStack.Screen
+        name="Mnemonics"
+        options={{ headerShown: false }}
+        component={MnemonicsScreen}
+      />
       <CreateWalletStack.Screen
         name="Verify Mnemonics"
+        options={{ headerShown: false }}
         component={VerifyMnemonicsScreen}
       />
     </CreateWalletStack.Navigator>
@@ -45,7 +50,11 @@ const Stacks = () => {
           options={{ headerShown: false }}
           component={CreateWalletStacks}
         />
-        <MainStack.Screen name="Import Wallet" component={ImportWalletScreen} />
+        <MainStack.Screen
+          name="Import Wallet"
+          options={{ headerShown: false }}
+          component={ImportWalletScreen}
+        />
       </MainStack.Navigator>
     </NavigationContainer>
   );
