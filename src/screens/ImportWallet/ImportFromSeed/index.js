@@ -17,11 +17,12 @@ import Checkbox from "expo-checkbox";
 
 import { SIZES } from "../../../constants";
 
-const CreatePassword = ({ navigation }) => {
+const ImportFromSeed = ({ navigation }) => {
   const { colors } = useTheme();
   const [isChecked, setChecked] = useState(false);
 
   const [isPasswordGiven, setPasswordGiven] = useState(false);
+  const [secretRecoveryPhrase, setSecretRecoveryPhrase] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
 
@@ -30,6 +31,7 @@ const CreatePassword = ({ navigation }) => {
       password.length >= 8 &&
       repeatPassword.length >= 8 &&
       password === repeatPassword &&
+      secretRecoveryPhrase.split(" ").length >= 12 &&
       isChecked &&
       password === repeatPassword
     ) {
@@ -37,14 +39,13 @@ const CreatePassword = ({ navigation }) => {
     } else {
       setPasswordGiven(false);
     }
-  }, [password, repeatPassword, isChecked]);
+  }, [password, repeatPassword, isChecked, secretRecoveryPhrase]);
 
   return (
     <Container style={styles.container}>
       {/* Upper components */}
       <View>
         <Brand />
-        <ProgressBar status={1} />
       </View>
       {/* Middle components */}
       <ScrollView
@@ -57,13 +58,45 @@ const CreatePassword = ({ navigation }) => {
               fontWeight="bold"
               style={[{ color: colors.text }, styles.infoBoxHeader]}
             >
-              Create Password
-            </CustomText>
-            <CustomText style={[{ color: colors.text }, styles.infoBoxBody]}>
-              This password will unlock your Cheyny wallet only to this device.
+              Import From Seed
             </CustomText>
           </View>
           <View style={styles.passwordsContainer}>
+            {/* Secret recovery phrase container */}
+            <View style={styles.secretRecoveryPhraseContainer}>
+              <CustomText
+                style={[
+                  {
+                    color: colors.primary,
+                    borderColor: colors.primary,
+                  },
+                  styles.passwordTitle,
+                ]}
+              >
+                Secret Recovery Phrase
+              </CustomText>
+              <TextInput
+                multiline
+                onChangeText={(text) => setSecretRecoveryPhrase(text)}
+                style={[
+                  {
+                    color: colors.text,
+                    borderColor: colors.primary,
+                  },
+                  styles.secretRecoveryPhraseInput,
+                ]}
+              />
+              <CustomText
+                style={[
+                  {
+                    color: colors.text,
+                  },
+                  styles.inputInfo,
+                ]}
+              >
+                Typically 12 (sometimes 24) words seperated by single spaces.
+              </CustomText>
+            </View>
             {/* Password container */}
             <View style={styles.passwordContainer}>
               <CustomText
@@ -160,12 +193,12 @@ const CreatePassword = ({ navigation }) => {
         <View style={styles.bottomContainer}>
           <Button
             onPress={() =>
-              navigation.navigate("Mnemonics", {
+              navigation.navigate("Congratulations", {
                 password,
               })
             }
             disabled={!isPasswordGiven}
-            title={"Create Password"}
+            title={"Import"}
           />
         </View>
       </ScrollView>
@@ -173,7 +206,7 @@ const CreatePassword = ({ navigation }) => {
   );
 };
 
-export default CreatePassword;
+export default ImportFromSeed;
 
 const styles = StyleSheet.create({
   container: { justifyContent: "space-between" },
@@ -205,5 +238,14 @@ const styles = StyleSheet.create({
   learnMore: {
     opacity: 1,
     textDecorationLine: "underline",
+  },
+  secretRecoveryPhraseContainer: { marginBottom: SIZES.windowWidth / 20 },
+  secretRecoveryPhraseInput: {
+    borderRadius: 8,
+    borderWidth: 1,
+    padding: 12,
+    width: "100%",
+    fontSize: 16,
+    height: SIZES.windowWidth / 3,
   },
 });

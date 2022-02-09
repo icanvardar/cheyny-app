@@ -35,8 +35,12 @@ const Welcome = ({ navigation }) => {
           style={styles.importWalletButton}
           title={"Import Wallet"}
           outlined={true}
+          onPress={() => navigation.navigate("Import Wallet")}
         />
-        <Button onPress={() => navigation.navigate("Create Wallet")} title={"Create a new wallet"} />
+        <Button
+          onPress={() => navigation.navigate("Create Wallet")}
+          title={"Create a new wallet"}
+        />
       </View>
       {/* bottom part of view */}
       <View style={styles.bottomView}>

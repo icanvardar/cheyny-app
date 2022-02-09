@@ -5,14 +5,16 @@ import WelcomeScreen from "../../screens/Welcome";
 import CreatePasswordScreen from "../../screens/CreateWallet/CreatePassword";
 import MnemonicsScreen from "../../screens/CreateWallet/Mnemonics";
 import VerifyMnemonicsScreen from "../../screens/CreateWallet/VerifyMnemonics";
-
-import ImportWalletScreen from "../../screens/ImportWallet";
+// Screens which are located in ImportWalletScreen
+import ImportFromSeedScreen from "../../screens/ImportWallet/ImportFromSeed";
+import CongratulationsScreen from "../../screens/ImportWallet/Congratulations";
 
 import { THEME } from "../../constants";
 
 const MainStack = createNativeStackNavigator();
 
 const CreateWalletStack = createNativeStackNavigator();
+const ImportWalletStack = createNativeStackNavigator();
 
 const CreateWalletStacks = () => {
   return (
@@ -36,6 +38,23 @@ const CreateWalletStacks = () => {
   );
 };
 
+const ImportWalletStacks = () => {
+  return (
+    <ImportWalletStack.Navigator>
+      <ImportWalletStack.Screen
+        name="Import From Seed"
+        options={{ headerShown: false }}
+        component={ImportFromSeedScreen}
+      />
+      <ImportWalletStack.Screen
+        name="Congratulations"
+        options={{ headerShown: false }}
+        component={CongratulationsScreen}
+      />
+    </ImportWalletStack.Navigator>
+  );
+};
+
 const Stacks = () => {
   return (
     <NavigationContainer theme={THEME}>
@@ -53,7 +72,7 @@ const Stacks = () => {
         <MainStack.Screen
           name="Import Wallet"
           options={{ headerShown: false }}
-          component={ImportWalletScreen}
+          component={ImportWalletStacks}
         />
       </MainStack.Navigator>
     </NavigationContainer>
