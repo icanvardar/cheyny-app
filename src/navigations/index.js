@@ -13,7 +13,15 @@ const Root = () => {
   const checkWallet = useStore((state) => state.checkWallet);
 
   let [fontsLoaded] = useFonts({
-    Costigue: require("../../assets/fonts/Costigue.ttf"),
+    Costigue: require("../../assets/fonts/Costigue/Costigue.ttf"),
+    "Poppins-Light": require("../../assets/fonts/Poppins/Poppins-Light.ttf"),
+    "Poppins-LightItalic": require("../../assets/fonts/Poppins/Poppins-LightItalic.ttf"),
+    "Poppins": require("../../assets/fonts/Poppins/Poppins-Regular.ttf"),
+    "Poppins-Italic": require("../../assets/fonts/Poppins/Poppins-Italic.ttf"),
+    "Poppins-Bold": require("../../assets/fonts/Poppins/Poppins-Bold.ttf"),
+    "Poppins-BoldItalic": require("../../assets/fonts/Poppins/Poppins-BoldItalic.ttf"),
+    "Poppins-Black": require("../../assets/fonts/Poppins/Poppins-Black.ttf"),
+    "Poppins-BlackItalic": require("../../assets/fonts/Poppins/Poppins-BlackItalic.ttf"),
   });
 
   useEffect(() => {
