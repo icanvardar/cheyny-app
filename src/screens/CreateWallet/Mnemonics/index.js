@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useState } from "react";
 import Container from "../../../components/Container";
 import Brand from "../../../components/Brand";
@@ -23,61 +23,62 @@ const Mnemonics = ({ navigation }) => {
       <View>
         <Brand />
         <ProgressBar status={2} />
-        <View style={styles.infoBox}>
-          <CustomText
-            fontWeight="bold"
-            style={[{ color: colors.text }, styles.infoBoxHeader]}
-          >
-            Your Secret Phrase
-          </CustomText>
-          <CustomText style={[{ color: colors.text }, styles.infoBoxBody]}>
-            Write down or copy these words in the right order and save them
-            somewhere safe.
-          </CustomText>
-        </View>
       </View>
       {/* Middle components */}
-      <View style={{ flex: 1 }}>
-        <View style={styles.mnemonicsContainer}>
-          {mnemonics.map((mnemonic, key) => (
-            <View key={mnemonic} style={styles.mnemonicsInnerContainer}>
-              <CustomText style={{ color: colors.text }}>
-                {key + 1}. {mnemonic}
-              </CustomText>
-            </View>
-          ))}
-        </View>
-        <View
-          style={[
-            styles.mnemonicsInfoBox,
-            { backgroundColor: colors.backgroundSecondary },
-          ]}
-        >
-          <CustomText
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollViewContainer}>
+        <View>
+          <View style={styles.infoBox}>
+            <CustomText
+              fontWeight="bold"
+              style={[{ color: colors.text }, styles.infoBoxHeader]}
+            >
+              Your Secret Phrase
+            </CustomText>
+            <CustomText style={[{ color: colors.text }, styles.infoBoxBody]}>
+              Write down or copy these words in the right order and save them
+              somewhere safe.
+            </CustomText>
+          </View>
+          <View style={styles.mnemonicsContainer}>
+            {mnemonics.map((mnemonic, key) => (
+              <View key={mnemonic} style={styles.mnemonicsInnerContainer}>
+                <CustomText style={{ color: colors.text }}>
+                  {key + 1}. {mnemonic}
+                </CustomText>
+              </View>
+            ))}
+          </View>
+          <View
             style={[
-              {
-                color: colors.text,
-              },
-              styles.mnemonicsInfoTextHeader,
+              styles.mnemonicsInfoBox,
+              { backgroundColor: colors.backgroundSecondary },
             ]}
           >
-            Do not share your secret phrase!
-          </CustomText>
-          <CustomText
-            style={[{ color: colors.text }, styles.mnemonicsInfoTextBody]}
-          >
-            If someone has your secret phase, they will have full control of
-            your wallet.
-          </CustomText>
+            <CustomText
+              style={[
+                {
+                  color: colors.text,
+                },
+                styles.mnemonicsInfoTextHeader,
+              ]}
+            >
+              Do not share your secret phrase!
+            </CustomText>
+            <CustomText
+              style={[{ color: colors.text }, styles.mnemonicsInfoTextBody]}
+            >
+              If someone has your secret phase, they will have full control of
+              your wallet.
+            </CustomText>
+          </View>
         </View>
-      </View>
-      {/* Bottom components */}
-      <View style={styles.bottomContainer}>
-        <Button
-          onPress={() => navigation.navigate("Verify Mnemonics")}
-          title={"Continue"}
-        />
-      </View>
+        <View style={styles.bottomContainer}>
+          <Button
+            onPress={() => navigation.navigate("Verify Mnemonics")}
+            title={"Continue"}
+          />
+        </View>
+      </ScrollView>
     </Container>
   );
 };
@@ -113,6 +114,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 18,
     borderRadius: 12,
+    marginBottom: 24,
   },
   mnemonicsInfoTextHeader: {
     textAlign: "center",
@@ -121,4 +123,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   mnemonicsInfoTextBody: { textAlign: "center", opacity: 0.65 },
+  scrollViewContainer: { flexGrow: 1, justifyContent: "space-between" },
 });
