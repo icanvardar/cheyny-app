@@ -8,7 +8,7 @@ export default function App() {
   return (
     <>
       <ApolloProvider client={apolloClient}>
-        <StatusBar style="auto" />
+        <StatusBar style="light" />
         <Root />
       </ApolloProvider>
     </>

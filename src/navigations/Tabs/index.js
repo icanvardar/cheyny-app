@@ -5,11 +5,13 @@ import ScanScreen from "../../screens/Scan";
 import HistoryScreen from "../../screens/History";
 import SettingsScreen from "../../screens/Settings";
 
+import { THEME } from "../../constants";
+
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={THEME}>
       <Tab.Navigator>
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Scan" component={ScanScreen} />
