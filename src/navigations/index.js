@@ -39,6 +39,8 @@ const Root = () => {
     }
 
     prepare();
+
+    return function cleanup() {};
   }, []);
 
   // This layout event checks all the dependencies are set up correctly

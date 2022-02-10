@@ -5,10 +5,12 @@ import useStore from "../../store/useStore";
 
 const Home = () => {
   const removeWallet = useStore((store) => store.removeWallet);
+  const removePassword = useStore((store) => store.removePassword);
   const checkWallet = useStore((store) => store.checkWallet);
 
   const handleClick = async () => {
     await removeWallet();
+    await removePassword();
     await checkWallet();
   };
 
