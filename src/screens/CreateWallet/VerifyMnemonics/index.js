@@ -9,7 +9,7 @@ import ProgressBar from "../../../components/ProgressBar";
 import { SIZES } from "../../../constants";
 import { useTheme } from "@react-navigation/native";
 
-const VerifyMnemonics = () => {
+const VerifyMnemonics = ({ route }) => {
   const [mnemonics, setMnemonics] = useState(
     "gun mechanic lift second stamp clutch axis impulse nuclear omit damp rent".split(
       " "
@@ -18,6 +18,9 @@ const VerifyMnemonics = () => {
   const [givenMnemonics, setGivenMnemonics] = useState([]);
   const [isMnemonicsGiven, setMnemonicsGiven] = useState(false);
   const { colors } = useTheme();
+
+  const { password } = route.params;
+  console.log(password);
 
   const handleAddMnemonic = (phrase) => {
     setGivenMnemonics([...givenMnemonics, phrase]);

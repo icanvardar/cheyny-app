@@ -14,6 +14,7 @@ import CustomText from "../../../components/CustomText";
 import ProgressBar from "../../../components/ProgressBar";
 import { useTheme } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
+import InputField from "../../../components/InputField";
 
 import { SIZES } from "../../../constants";
 
@@ -65,63 +66,18 @@ const CreatePassword = ({ navigation }) => {
           </View>
           <View style={styles.passwordsContainer}>
             {/* Password container */}
-            <View style={styles.passwordContainer}>
-              <CustomText
-                style={[
-                  {
-                    color: colors.primary,
-                    borderColor: colors.primary,
-                  },
-                  styles.passwordTitle,
-                ]}
-              >
-                New Password
-              </CustomText>
-              <TextInput
-                onChangeText={(text) => setPassword(text)}
-                style={[
-                  {
-                    color: colors.text,
-                    borderColor: colors.primary,
-                  },
-                  styles.passwordInput,
-                ]}
-              />
-              <CustomText
-                style={[
-                  {
-                    color: colors.text,
-                  },
-                  styles.inputInfo,
-                ]}
-              >
-                Must be at least 8 characters.
-              </CustomText>
-            </View>
+            <InputField
+              isTogglable={true}
+              title={"New Password"}
+              onChangeText={(text) => setPassword(text)}
+              subtitle={"Must be at least 8 characters."}
+            />
             {/* Confirm Password container */}
-            <View>
-              <CustomText
-                style={[
-                  {
-                    color: colors.primary,
-                    borderColor: colors.primary,
-                  },
-                  styles.passwordTitle,
-                ]}
-              >
-                Confirm Password
-              </CustomText>
-              <TextInput
-                onChangeText={(text) => setRepeatPassword(text)}
-                style={[
-                  {
-                    color: colors.text,
-                    borderColor: colors.primary,
-                  },
-                  styles.passwordInput,
-                ]}
-              />
-            </View>
+            <InputField
+              isTogglable={true}
+              title={"Confirm Password"}
+              onChangeText={(text) => setRepeatPassword(text)}
+            />
           </View>
           <View style={styles.checkboxContainer}>
             <View style={{ justifyContent: "center" }}>
@@ -185,16 +141,6 @@ const styles = StyleSheet.create({
   passwordsContainer: {
     marginTop: SIZES.windowWidth / 12,
   },
-  passwordContainer: { marginBottom: SIZES.windowWidth / 20 },
-  passwordTitle: { fontSize: SIZES.windowWidth / 24, marginBottom: 2 },
-  passwordInput: {
-    borderRadius: 8,
-    borderWidth: 1,
-    padding: 12,
-    width: "100%",
-    fontSize: 16,
-  },
-  inputInfo: { fontSize: SIZES.windowWidth / 32, opacity: 0.5 },
   checkboxContainer: {
     flexDirection: "row",
     marginTop: SIZES.windowWidth / 18,

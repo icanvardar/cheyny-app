@@ -14,7 +14,7 @@ const mnemonics =
     " "
   );
 
-const Mnemonics = ({ navigation }) => {
+const Mnemonics = ({ navigation, route }) => {
   const { colors } = useTheme();
 
   return (
@@ -77,7 +77,11 @@ const Mnemonics = ({ navigation }) => {
         </View>
         <View style={styles.bottomContainer}>
           <Button
-            onPress={() => navigation.navigate("Verify Mnemonics")}
+            onPress={() =>
+              navigation.navigate("Verify Mnemonics", {
+                password: route.params.password,
+              })
+            }
             title={"Continue"}
           />
         </View>
