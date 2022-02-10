@@ -63,42 +63,18 @@ const ImportFromSeed = ({ navigation }) => {
           </View>
           <View style={styles.passwordsContainer}>
             {/* Secret recovery phrase container */}
-            <View style={styles.secretRecoveryPhraseContainer}>
-              <CustomText
-                style={[
-                  {
-                    color: colors.primary,
-                    borderColor: colors.primary,
-                  },
-                  styles.passwordTitle,
-                ]}
-              >
-                Secret Recovery Phrase
-              </CustomText>
-              <TextInput
-                multiline
-                onChangeText={(text) => setSecretRecoveryPhrase(text)}
-                style={[
-                  {
-                    color: colors.text,
-                    borderColor: colors.primary,
-                  },
-                  styles.secretRecoveryPhraseInput,
-                ]}
-              />
-              <CustomText
-                style={[
-                  {
-                    color: colors.text,
-                  },
-                  styles.phrasesInputInfo,
-                ]}
-              >
-                Typically 12 (sometimes 24) words seperated by single spaces.
-              </CustomText>
-            </View>
+            <InputField
+              multiline
+              isTogglable={true}
+              title={"Secret Recovery Phrase"}
+              onChangeText={(text) => setSecretRecoveryPhrase(text)}
+              subtitle={
+                "Typically 12 (sometimes 24) words seperated by single spaces."
+              }
+            />
             {/* Password container */}
             <InputField
+              keyboardType="number-pad"
               isTogglable={true}
               title={"New Password"}
               onChangeText={(text) => setPassword(text)}
@@ -106,6 +82,7 @@ const ImportFromSeed = ({ navigation }) => {
             />
             {/* Confirm Password container */}
             <InputField
+              keyboardType="number-pad"
               isTogglable={true}
               title={"Confirm Password"}
               onChangeText={(text) => setRepeatPassword(text)}
@@ -172,7 +149,11 @@ const styles = StyleSheet.create({
   passwordsContainer: {
     marginTop: SIZES.windowWidth / 12,
   },
-  phrasesInputInfo: { fontSize: SIZES.windowWidth / 32, opacity: 0.5, marginTop: 4 },
+  phrasesInputInfo: {
+    fontSize: SIZES.windowWidth / 32,
+    opacity: 0.5,
+    marginTop: 4,
+  },
   checkboxContainer: {
     flexDirection: "row",
     marginTop: SIZES.windowWidth / 18,

@@ -67,6 +67,7 @@ const CreatePassword = ({ navigation }) => {
           <View style={styles.passwordsContainer}>
             {/* Password container */}
             <InputField
+              keyboardType="number-pad"
               isTogglable={true}
               title={"New Password"}
               onChangeText={(text) => setPassword(text)}
@@ -74,6 +75,7 @@ const CreatePassword = ({ navigation }) => {
             />
             {/* Confirm Password container */}
             <InputField
+              keyboardType="number-pad"
               isTogglable={true}
               title={"Confirm Password"}
               onChangeText={(text) => setRepeatPassword(text)}

@@ -17,7 +17,8 @@ const InputField = ({
   title,
   isTogglable = false,
   subtitle = "",
-  keyboardType = "number-pad",
+  keyboardType = "default",
+  multiline = false,
 }) => {
   const { colors } = useTheme();
 
@@ -40,23 +41,30 @@ const InputField = ({
         style={[
           {
             borderColor: colors.primary,
+            alignItems: multiline ? "flex-start" : "center",
           },
           styles.passwordOuterContainer,
         ]}
       >
         <TextInput
+          // multiline={multiline}
+          textAlignVertical={"top"}
           keyboardType={keyboardType}
           secureTextEntry={isTogglable ? (isHidden ? true : false) : false}
           onChangeText={onChangeText}
           style={[
             {
               color: colors.text,
+              height: multiline ? SIZES.windowWidth / 3 : null,
             },
             styles.passwordInput,
           ]}
         />
         {isTogglable && (
-          <TouchableOpacity onPress={() => setHidden(!isHidden)}>
+          <TouchableOpacity
+            onPress={() => setHidden(!isHidden)}
+            style={{ marginTop: multiline ? 8 : 0 }}
+          >
             <Ionicons
               name={isHidden ? "eye-off" : "eye"}
               size={24}
@@ -95,7 +103,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     flexDirection: "row",
-    alignItems: "center",
   },
   inputInfo: { fontSize: SIZES.windowWidth / 32, opacity: 0.5, marginTop: 4 },
 });
