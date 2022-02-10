@@ -54,7 +54,7 @@ const Button = ({
   return (
     <TouchableOpacity
       disabled={disabled}
-      onPress={onPress}
+      onPress={loading ? null : onPress}
       style={[
         {
           backgroundColor: outlined ? colors.background : colors.primary,

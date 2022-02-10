@@ -13,9 +13,8 @@ import { equals, shuffleArray } from "../../../helpers/arrayOperations";
 
 import useStore from "../../../store/useStore";
 
-const VerifyMnemonics = () => {
+const VerifyMnemonics = ({ navigation }) => {
   const wallet = useStore((state) => state.wallet);
-  const checkWallet = useStore((state) => state.checkWallet);
 
   const [mnemonics, setMnemonics] = useState(
     shuffleArray(wallet.mnemonic.phrase.split(" "))
@@ -40,11 +39,13 @@ const VerifyMnemonics = () => {
 
   const handleNavigation = async () => {
     setActing(true);
-    const checkWalletTimeout = setTimeout(async () => {
-      await checkWallet();
+    const navigateTimeout = setTimeout(async () => {
+      navigation.navigate("Congratulations", {
+        importedOrCreated: "created"
+      });
       setActing(false);
     }, 3000);
-    return () => clearTimeout(checkWalletTimeout);
+    return () => clearTimeout(navigateTimeout);
   };
 
   useEffect(() => {

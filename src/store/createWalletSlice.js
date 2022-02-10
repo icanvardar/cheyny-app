@@ -19,6 +19,12 @@ const createWalletSlice = (set, get) => ({
     await SecureStore.setItemAsync("wallet", JSON.stringify(walletInstance));
     set({ wallet: walletInstance });
   },
+  importWallet: async (mnemonic) => {
+    const walletHandler = get().walletHandler;
+    const walletInstance = walletHandler.importWallet(mnemonic);
+    await SecureStore.setItemAsync("wallet", JSON.stringify(walletInstance));
+    set({ wallet: walletInstance });
+  },
   fetchWallet: async () => {
     const { privateKey } = JSON.parse(await SecureStore.getItemAsync("wallet"));
     set({ wallet: get().walletHandler.loadWallet(privateKey) });

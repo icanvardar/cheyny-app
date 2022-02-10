@@ -17,14 +17,33 @@ import InputField from "../../../components/InputField";
 
 import { SIZES } from "../../../constants";
 
+import useStore from "../../../store/useStore";
+
 const ImportFromSeed = ({ navigation }) => {
   const { colors } = useTheme();
   const [isChecked, setChecked] = useState(false);
 
+  const [isActing, setActing] = useState(false);
   const [isPasswordGiven, setPasswordGiven] = useState(false);
   const [secretRecoveryPhrase, setSecretRecoveryPhrase] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+
+  const importWallet = useStore((state) => state.importWallet);
+  const createPassword = useStore((state) => state.createPassword);
+
+  const handleNavigation = async () => {
+    setActing(true);
+    const importWalletTimeout = setTimeout(async () => {
+      await importWallet(secretRecoveryPhrase);
+      await createPassword(password);
+      console.log(secretRecoveryPhrase);
+      navigation.navigate("Congratulations", { importedOrCreated: "imported" });
+      setActing(false);
+    }, 3000);
+
+    return () => clearTimeout(importWalletTimeout);
+  };
 
   useEffect(() => {
     if (
@@ -124,13 +143,10 @@ const ImportFromSeed = ({ navigation }) => {
         </View>
         <View style={styles.bottomContainer}>
           <Button
-            onPress={() =>
-              navigation.navigate("Congratulations", {
-                password,
-              })
-            }
+            onPress={handleNavigation}
             disabled={!isPasswordGiven}
             title={"Import"}
+            loading={isActing}
           />
         </View>
       </ScrollView>

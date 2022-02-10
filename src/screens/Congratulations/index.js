@@ -1,15 +1,33 @@
 import { View, StyleSheet, ScrollView, Image } from "react-native";
-import React from "react";
-import Container from "../../../components/Container";
-import Brand from "../../../components/Brand";
-import Button from "../../../components/Button";
-import CustomText from "../../../components/CustomText";
+import React, { useState } from "react";
+import Container from "../../components/Container";
+import Brand from "../../components/Brand";
+import Button from "../../components/Button";
+import CustomText from "../../components/CustomText";
 import { useTheme } from "@react-navigation/native";
 
-import { SIZES } from "../../../constants";
+import { SIZES } from "../../constants";
 
-const ImportFromSeed = ({ navigation }) => {
+import useStore from "../../store/useStore";
+
+const ImportFromSeed = ({ route }) => {
   const { colors } = useTheme();
+
+  const { importedOrCreated } = route.params;
+
+  const [isActing, setActing] = useState(false);
+
+  const checkWallet = useStore((state) => state.checkWallet);
+
+  const handleNavigation = async () => {
+    setActing(true);
+    const checkWalletTimeout = setTimeout(async () => {
+      await checkWallet();
+      setActing(false);
+    }, 3000);
+
+    return () => clearTimeout(checkWalletTimeout);
+  };
 
   return (
     <Container style={styles.container}>
@@ -25,7 +43,7 @@ const ImportFromSeed = ({ navigation }) => {
         <View style={styles.confettiContainer}>
           <Image
             style={styles.confetti}
-            source={require("../../../../assets/images/confetti.png")}
+            source={require("../../../assets/images/confetti.png")}
           />
           <CustomText
             fontWeight="bold"
@@ -45,8 +63,8 @@ const ImportFromSeed = ({ navigation }) => {
               paddingVertical: SIZES.windowHeight / 24,
             }}
           >
-            You’ve successfully imported your wallet. Remember to keep your
-            Secret Recovery Phrase safe, it’s your responsibility!
+            You’ve successfully {importedOrCreated} your wallet. Remember to
+            keep your Secret Recovery Phrase safe, it’s your responsibility!
           </CustomText>
           <CustomText
             style={{
@@ -56,14 +74,15 @@ const ImportFromSeed = ({ navigation }) => {
               paddingVertical: SIZES.windowHeight / 72,
             }}
           >
-            You can find your Secret Recovery Phrase in Settings {">"} Security
+            You can find your Secret Recovery Phrase in Settings {">"} Security{" "}
             {"&"} Privacy.
           </CustomText>
         </View>
         <View style={styles.bottomContainer}>
           <Button
-            onPress={() => navigation.navigate("Congratulations")}
+            onPress={handleNavigation}
             title={"Done"}
+            loading={isActing}
           />
         </View>
       </ScrollView>

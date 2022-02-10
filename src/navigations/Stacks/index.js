@@ -7,7 +7,7 @@ import MnemonicsScreen from "../../screens/CreateWallet/Mnemonics";
 import VerifyMnemonicsScreen from "../../screens/CreateWallet/VerifyMnemonics";
 // Screens which are located in ImportWalletScreen
 import ImportFromSeedScreen from "../../screens/ImportWallet/ImportFromSeed";
-import CongratulationsScreen from "../../screens/ImportWallet/Congratulations";
+import CongratulationsScreen from "../../screens/Congratulations";
 
 import { THEME } from "../../constants";
 
@@ -33,6 +33,11 @@ const CreateWalletStacks = () => {
         name="Verify Mnemonics"
         options={{ headerShown: false }}
         component={VerifyMnemonicsScreen}
+      />
+      <CreateWalletStack.Screen
+        name="Congratulations"
+        options={{ headerShown: false }}
+        component={CongratulationsScreen}
       />
     </CreateWalletStack.Navigator>
   );

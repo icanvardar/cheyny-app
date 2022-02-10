@@ -13,7 +13,12 @@ class WalletHandler {
   }
 
   importWallet(mnemonic) {
-    return ethers.Wallet.fromMnemonic(mnemonic);
+    const importedWallet = ethers.Wallet.fromMnemonic(mnemonic);
+    return {
+      address: importedWallet.address,
+      privateKey: importedWallet.privateKey,
+      mnemonic: importedWallet.mnemonic,
+    };
   }
 
   loadWallet(privateKey) {
