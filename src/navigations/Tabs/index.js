@@ -12,7 +12,9 @@ const Tab = createBottomTabNavigator();
 const Tabs = () => {
   return (
     <NavigationContainer theme={THEME}>
-      <Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={{ headerShown: false, tabBarShowLabel: false }}
+      >
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Scan" component={ScanScreen} />
         <Tab.Screen name="History" component={HistoryScreen} />

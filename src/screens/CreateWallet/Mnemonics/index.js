@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import Container from "../../../components/Container";
 import Brand from "../../../components/Brand";
@@ -9,12 +9,18 @@ import ProgressBar from "../../../components/ProgressBar";
 import { SIZES } from "../../../constants";
 import { useTheme } from "@react-navigation/native";
 
+import * as Clipboard from "expo-clipboard";
+
 import useStore from "../../../store/useStore";
 
 const Mnemonics = ({ navigation, route }) => {
   const { colors } = useTheme();
 
   const wallet = useStore((state) => state.wallet);
+
+  const copyToClipboard = () => {
+    Clipboard.setString(wallet.mnemonic.phrase);
+  };
 
   return (
     <Container style={styles.container}>
@@ -49,6 +55,14 @@ const Mnemonics = ({ navigation, route }) => {
                 </CustomText>
               </View>
             ))}
+          </View>
+          {/* Copy button field */}
+          <View style={styles.copyButtonContainer}>
+            <TouchableOpacity onPress={copyToClipboard}>
+              <CustomText fontWeight="bold" style={{ color: colors.primary }}>
+                Copy
+              </CustomText>
+            </TouchableOpacity>
           </View>
           <View
             style={[
@@ -126,4 +140,8 @@ const styles = StyleSheet.create({
   },
   mnemonicsInfoTextBody: { textAlign: "center", opacity: 0.65 },
   scrollViewContainer: { flexGrow: 1, justifyContent: "space-between" },
+  copyButtonContainer: {
+    alignItems: "center",
+    marginTop: 4,
+  },
 });

@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
+    "start": "yarn remove-expo-font && expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "remove-expo-font": "rm -rf node_modules/expo/node_modules/expo-font"
   },
   "dependencies": {
     "@apollo/client": "^3.5.8",
