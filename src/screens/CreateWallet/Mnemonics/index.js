@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../../../components/Container";
 import Brand from "../../../components/Brand";
 import Button from "../../../components/Button";
@@ -9,13 +9,12 @@ import ProgressBar from "../../../components/ProgressBar";
 import { SIZES } from "../../../constants";
 import { useTheme } from "@react-navigation/native";
 
-const mnemonics =
-  "gun mechanic lift second stamp clutch axis impulse nuclear omit damp rent".split(
-    " "
-  );
+import useStore from "../../../store/useStore";
 
 const Mnemonics = ({ navigation, route }) => {
   const { colors } = useTheme();
+
+  const wallet = useStore((state) => state.wallet);
 
   return (
     <Container style={styles.container}>
@@ -43,7 +42,7 @@ const Mnemonics = ({ navigation, route }) => {
             </CustomText>
           </View>
           <View style={styles.mnemonicsContainer}>
-            {mnemonics.map((mnemonic, key) => (
+            {wallet.mnemonic.phrase.split(" ").map((mnemonic, key) => (
               <View key={mnemonic} style={styles.mnemonicsInnerContainer}>
                 <CustomText style={{ color: colors.text }}>
                   {key + 1}. {mnemonic}
@@ -77,11 +76,7 @@ const Mnemonics = ({ navigation, route }) => {
         </View>
         <View style={styles.bottomContainer}>
           <Button
-            onPress={() =>
-              navigation.navigate("Verify Mnemonics", {
-                password: route.params.password,
-              })
-            }
+            onPress={() => navigation.navigate("Verify Mnemonics")}
             title={"Continue"}
           />
         </View>

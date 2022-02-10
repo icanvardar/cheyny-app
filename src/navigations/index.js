@@ -11,12 +11,13 @@ const Root = () => {
   const [appIsReady, setAppIsReady] = useState(false);
   const isWalletCreated = useStore((state) => state.isWalletCreated);
   const checkWallet = useStore((state) => state.checkWallet);
+  const removeWallet = useStore((state) => state.removeWallet);
 
   let [fontsLoaded] = useFonts({
     Costigue: require("../../assets/fonts/Costigue/Costigue.ttf"),
     "Poppins-Light": require("../../assets/fonts/Poppins/Poppins-Light.ttf"),
     "Poppins-LightItalic": require("../../assets/fonts/Poppins/Poppins-LightItalic.ttf"),
-    "Poppins": require("../../assets/fonts/Poppins/Poppins-Regular.ttf"),
+    Poppins: require("../../assets/fonts/Poppins/Poppins-Regular.ttf"),
     "Poppins-Italic": require("../../assets/fonts/Poppins/Poppins-Italic.ttf"),
     "Poppins-Bold": require("../../assets/fonts/Poppins/Poppins-Bold.ttf"),
     "Poppins-BoldItalic": require("../../assets/fonts/Poppins/Poppins-BoldItalic.ttf"),
@@ -30,6 +31,7 @@ const Root = () => {
       try {
         await SplashScreen.preventAutoHideAsync();
         await checkWallet();
+        await removeWallet();
         await new Promise((resolve) => setTimeout(resolve, 2000));
       } catch (e) {
         console.warn(e);

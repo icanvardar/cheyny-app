@@ -1,5 +1,5 @@
 import { View, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../../../components/Container";
 import Brand from "../../../components/Brand";
 import Button from "../../../components/Button";
@@ -9,18 +9,19 @@ import ProgressBar from "../../../components/ProgressBar";
 import { SIZES } from "../../../constants";
 import { useTheme } from "@react-navigation/native";
 
-const VerifyMnemonics = ({ route }) => {
+import { equals, shuffleArray } from "../../../helpers/arrayOperations";
+
+import useStore from "../../../store/useStore";
+
+const VerifyMnemonics = () => {
+  const wallet = useStore((state) => state.wallet);
+
   const [mnemonics, setMnemonics] = useState(
-    "gun mechanic lift second stamp clutch axis impulse nuclear omit damp rent".split(
-      " "
-    )
+    shuffleArray(wallet.mnemonic.phrase.split(" "))
   );
   const [givenMnemonics, setGivenMnemonics] = useState([]);
   const [isMnemonicsGiven, setMnemonicsGiven] = useState(false);
   const { colors } = useTheme();
-
-  const { password } = route.params;
-  console.log(password);
 
   const handleAddMnemonic = (phrase) => {
     setGivenMnemonics([...givenMnemonics, phrase]);
@@ -33,6 +34,24 @@ const VerifyMnemonics = ({ route }) => {
     setGivenMnemonics(newGivenMnemonics);
     setMnemonics([...mnemonics, phrase]);
   };
+
+  useEffect(() => {
+    // console.log(wallet.mnemonic.phrase.split(" "));
+    // console.log("mnemonics - " + mnemonics);
+    // console.log("givenMnemonics - " + givenMnemonics);
+    const checkMnemonics = () => {
+      if (
+        wallet.mnemonic.phrase.split(" ").length === givenMnemonics.length &&
+        equals(wallet.mnemonic.phrase.split(" "), givenMnemonics)
+      ) {
+        setMnemonicsGiven(true);
+      } else {
+        setMnemonicsGiven(false);
+      }
+    };
+
+    checkMnemonics();
+  }, [givenMnemonics]);
 
   return (
     <Container style={styles.container}>
@@ -92,6 +111,7 @@ const VerifyMnemonics = ({ route }) => {
           <Button
             onPress={() => navigation.navigate("Verify Mnemonics")}
             title={"Continue"}
+            disabled={!isMnemonicsGiven}
           />
         </View>
       </ScrollView>

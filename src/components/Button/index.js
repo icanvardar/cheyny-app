@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import React from "react";
 import { useTheme } from "@react-navigation/native";
 import { SIZES } from "../../constants";
@@ -11,6 +17,7 @@ const Button = ({
   style = {},
   size = "normal",
   disabled = false,
+  loading = false,
 }) => {
   const { colors } = useTheme();
 
@@ -60,18 +67,22 @@ const Button = ({
         style,
       ]}
     >
-      <CustomText
-        fontWeight="bold"
-        style={[
-          {
-            opacity: disabled ? 0.25 : 1,
-            color: outlined ? colors.primary : colors.background,
-            fontSize: handleFontSize(),
-          },
-        ]}
-      >
-        {title}
-      </CustomText>
+      {loading ? (
+        <ActivityIndicator color={colors.background}/>
+      ) : (
+        <CustomText
+          fontWeight="bold"
+          style={[
+            {
+              opacity: disabled ? 0.25 : 1,
+              color: outlined ? colors.primary : colors.background,
+              fontSize: handleFontSize(),
+            },
+          ]}
+        >
+          {title}
+        </CustomText>
+      )}
     </TouchableOpacity>
   );
 };

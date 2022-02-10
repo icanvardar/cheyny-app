@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import Container from "../../../components/Container";
 import Brand from "../../../components/Brand";
@@ -18,6 +11,8 @@ import InputField from "../../../components/InputField";
 
 import { SIZES } from "../../../constants";
 
+import useStore from "../../../store/useStore";
+
 const CreatePassword = ({ navigation }) => {
   const { colors } = useTheme();
   const [isChecked, setChecked] = useState(false);
@@ -25,6 +20,21 @@ const CreatePassword = ({ navigation }) => {
   const [isPasswordGiven, setPasswordGiven] = useState(false);
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+
+  const [isActing, setActing] = useState(false);
+
+  const createPassword = useStore((state) => state.createPassword);
+  const createWallet = useStore((state) => state.createWallet);
+
+  const handleNavigation = async (givenPassword) => {
+    setActing(true);
+    // sets password to SecureStore
+    await createPassword(givenPassword);
+    // creates wallet for Mnemonics screen
+    await createWallet();
+    navigation.navigate("Mnemonics");
+    setActing(false);
+  }
 
   useEffect(() => {
     if (
@@ -117,13 +127,10 @@ const CreatePassword = ({ navigation }) => {
         </View>
         <View style={styles.bottomContainer}>
           <Button
-            onPress={() =>
-              navigation.navigate("Mnemonics", {
-                password,
-              })
-            }
+            onPress={() => handleNavigation(password)}
             disabled={!isPasswordGiven}
             title={"Create Password"}
+            loading={isActing}
           />
         </View>
       </ScrollView>

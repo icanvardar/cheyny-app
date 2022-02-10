@@ -12,17 +12,17 @@ const createWalletSlice = (set, get) => ({
       set({ isWalletCreated: false });
     }
   },
-  create: async () => {
+  createWallet: async () => {
     const walletHandler = get().walletHandler;
-    const createdWallet = walletHandler.createWallet();
-    await SecureStore.setItemAsync("wallet", JSON.stringify(createdWallet));
-    set({ wallet: walletHandler.loadWallet(createdWallet.privateKey) });
+    const walletInstance = walletHandler.createWallet();
+    await SecureStore.setItemAsync("wallet", JSON.stringify(walletInstance));
+    set({ wallet: walletInstance });
   },
-  fetch: async () => {
+  fetchWallet: async () => {
     const { privateKey } = JSON.parse(await SecureStore.getItemAsync("wallet"));
     set({ wallet: get().walletHandler.loadWallet(privateKey) });
   },
-  remove: async () => {
+  removeWallet: async () => {
     await SecureStore.deleteItemAsync("wallet");
   },
 });
