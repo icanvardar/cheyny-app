@@ -1,10 +1,22 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 
+import useStore from "../../store/useStore";
+
 const Home = () => {
+  const removeWallet = useStore((store) => store.removeWallet);
+  const checkWallet = useStore((store) => store.checkWallet);
+
+  const handleClick = async () => {
+    await removeWallet();
+    await checkWallet();
+  };
+
   return (
     <View>
-      <Text></Text>
+      <TouchableOpacity onPress={handleClick}>
+        <Text>Remove Wallet</Text>
+      </TouchableOpacity>
     </View>
   );
 };

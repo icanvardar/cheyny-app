@@ -15,12 +15,15 @@ import useStore from "../../../store/useStore";
 
 const VerifyMnemonics = () => {
   const wallet = useStore((state) => state.wallet);
+  const checkWallet = useStore((state) => state.checkWallet);
 
   const [mnemonics, setMnemonics] = useState(
     shuffleArray(wallet.mnemonic.phrase.split(" "))
   );
   const [givenMnemonics, setGivenMnemonics] = useState([]);
   const [isMnemonicsGiven, setMnemonicsGiven] = useState(false);
+  const [isActing, setActing] = useState(false);
+
   const { colors } = useTheme();
 
   const handleAddMnemonic = (phrase) => {
@@ -33,6 +36,15 @@ const VerifyMnemonics = () => {
     const newGivenMnemonics = givenMnemonics.filter((m) => m !== phrase);
     setGivenMnemonics(newGivenMnemonics);
     setMnemonics([...mnemonics, phrase]);
+  };
+
+  const handleNavigation = async () => {
+    setActing(true);
+    const checkWalletTimeout = setTimeout(async () => {
+      await checkWallet();
+      setActing(false);
+    }, 3000);
+    return () => clearTimeout(checkWalletTimeout);
   };
 
   useEffect(() => {
@@ -52,6 +64,10 @@ const VerifyMnemonics = () => {
 
     checkMnemonics();
   }, [givenMnemonics]);
+
+  useEffect(() => {
+    console.log(wallet);
+  }, []);
 
   return (
     <Container style={styles.container}>
@@ -109,9 +125,10 @@ const VerifyMnemonics = () => {
         {/* Bottom components */}
         <View style={styles.bottomContainer}>
           <Button
-            onPress={() => navigation.navigate("Verify Mnemonics")}
+            onPress={handleNavigation}
             title={"Continue"}
             disabled={!isMnemonicsGiven}
+            loading={isActing}
           />
         </View>
       </ScrollView>

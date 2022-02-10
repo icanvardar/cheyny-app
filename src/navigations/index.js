@@ -11,7 +11,6 @@ const Root = () => {
   const [appIsReady, setAppIsReady] = useState(false);
   const isWalletCreated = useStore((state) => state.isWalletCreated);
   const checkWallet = useStore((state) => state.checkWallet);
-  const removeWallet = useStore((state) => state.removeWallet);
 
   let [fontsLoaded] = useFonts({
     Costigue: require("../../assets/fonts/Costigue/Costigue.ttf"),
@@ -31,7 +30,6 @@ const Root = () => {
       try {
         await SplashScreen.preventAutoHideAsync();
         await checkWallet();
-        await removeWallet();
         await new Promise((resolve) => setTimeout(resolve, 2000));
       } catch (e) {
         console.warn(e);

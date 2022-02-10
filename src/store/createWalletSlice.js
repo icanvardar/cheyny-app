@@ -11,6 +11,7 @@ const createWalletSlice = (set, get) => ({
     } else {
       set({ isWalletCreated: false });
     }
+    console.log("wallet checked");
   },
   createWallet: async () => {
     const walletHandler = get().walletHandler;
@@ -24,6 +25,7 @@ const createWalletSlice = (set, get) => ({
   },
   removeWallet: async () => {
     await SecureStore.deleteItemAsync("wallet");
+    console.log("wallet deleted");
   },
 });
 
