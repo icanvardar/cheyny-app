@@ -21,11 +21,14 @@ const Mnemonics = ({ navigation }) => {
     <Container style={styles.container}>
       {/* Upper components */}
       <View>
-        <Brand />
+        <Brand hasBackButton={true} />
         <ProgressBar status={2} />
       </View>
       {/* Middle components */}
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollViewContainer}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollViewContainer}
+      >
         <View>
           <View style={styles.infoBox}>
             <CustomText

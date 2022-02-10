@@ -43,7 +43,7 @@ const CreatePassword = ({ navigation }) => {
     <Container style={styles.container}>
       {/* Upper components */}
       <View>
-        <Brand />
+        <Brand hasBackButton={true} />
         <ProgressBar status={1} />
       </View>
       {/* Middle components */}

@@ -35,11 +35,14 @@ const VerifyMnemonics = () => {
     <Container style={styles.container}>
       {/* Upper components */}
       <View>
-        <Brand />
+        <Brand hasBackButton={true} />
         <ProgressBar status={3} />
       </View>
       {/* Middle components */}
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollViewContainer}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollViewContainer}
+      >
         <View style={styles.infoBox}>
           <CustomText
             fontWeight="bold"

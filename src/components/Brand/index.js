@@ -1,26 +1,40 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { SIZES } from "../../constants";
-import { useTheme } from "@react-navigation/native";
+import { useNavigation, useTheme } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
-const Brand = () => {
+const Brand = ({ hasBackButton = false }) => {
   const { colors } = useTheme();
+  const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
-      <Text
-        style={[
-          [
-            {
-              color: colors.primary,
-            },
-            styles.brandName,
-          ],
-        ]}
-      >
-        Cheyny
-      </Text>
-    </View>
+    <>
+      {hasBackButton && (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+          style={{ position: "absolute", top: 18, zIndex: 1 }}
+        >
+          <Ionicons name="arrow-back" size={24} color={colors.text} />
+        </TouchableOpacity>
+      )}
+      <View style={styles.container}>
+        <Text
+          style={[
+            [
+              {
+                color: colors.primary,
+              },
+              styles.brandName,
+            ],
+          ]}
+        >
+          Cheyny
+        </Text>
+      </View>
+    </>
   );
 };
 

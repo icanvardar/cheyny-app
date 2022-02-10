@@ -44,7 +44,7 @@ const ImportFromSeed = ({ navigation }) => {
     <Container style={styles.container}>
       {/* Upper components */}
       <View>
-        <Brand />
+        <Brand hasBackButton={true} />
       </View>
       {/* Middle components */}
       <ScrollView

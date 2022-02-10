@@ -1,19 +1,10 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  Image,
-} from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, StyleSheet, ScrollView, Image } from "react-native";
+import React from "react";
 import Container from "../../../components/Container";
 import Brand from "../../../components/Brand";
 import Button from "../../../components/Button";
 import CustomText from "../../../components/CustomText";
 import { useTheme } from "@react-navigation/native";
-import Checkbox from "expo-checkbox";
 
 import { SIZES } from "../../../constants";
 
@@ -38,7 +29,11 @@ const ImportFromSeed = ({ navigation }) => {
           />
           <CustomText
             fontWeight="bold"
-            style={{ color: colors.text, fontSize: SIZES.h5, paddingTop: SIZES.windowHeight / 24 }}
+            style={{
+              color: colors.text,
+              fontSize: SIZES.h5,
+              paddingTop: SIZES.windowHeight / 24,
+            }}
           >
             Congratulations!
           </CustomText>
