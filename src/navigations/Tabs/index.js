@@ -1,7 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import Drawer from "../../navigations/Drawer";
-// import Home from "../../screens/Home";
+import WalletScreen from "../../screens/Wallet";
 import ScanScreen from "../../screens/Scan";
 import HistoryScreen from "../../screens/History";
 import SettingsScreen from "../../screens/Settings";
@@ -12,6 +13,24 @@ import { Ionicons } from "@expo/vector-icons";
 import { THEME } from "../../constants";
 
 const Tab = createBottomTabNavigator();
+const WalletStack = createStackNavigator();
+
+const WalletStacks = () => {
+  return (
+    <WalletStack.Navigator>
+      <WalletStack.Screen
+        options={{ headerShown: false }}
+        name="Wallet"
+        component={WalletScreen}
+      />
+      <WalletStack.Screen
+        options={{ headerShown: false }}
+        name="Product"
+        component={Drawer}
+      />
+    </WalletStack.Navigator>
+  );
+};
 
 const Tabs = () => {
   return (
@@ -21,7 +40,7 @@ const Tabs = () => {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
-            if (route.name === "Drawer") {
+            if (route.name === "Wallet") {
               iconName = focused ? "home" : "home-outline";
             } else if (route.name === "Scan") {
               iconName = focused ? "scan" : "scan-outline";
@@ -49,7 +68,7 @@ const Tabs = () => {
           },
         })}
       >
-        <Tab.Screen name="Drawer" component={Drawer} />
+        <Tab.Screen name="Wallet" component={WalletStacks} />
         <Tab.Screen name="Scan" component={ScanScreen} />
         <Tab.Screen name="History" component={HistoryScreen} />
         <Tab.Screen name="Settings" component={SettingsScreen} />

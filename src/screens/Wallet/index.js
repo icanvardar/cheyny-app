@@ -41,11 +41,11 @@ const Home = ({ navigation }) => {
   };
 
   const _handleNavigation = (tokenId) => {
-    navigation.navigate();
+    navigation.navigate("Product", { tokenId });
   };
 
   const ProductCard = ({ item }) => (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => _handleNavigation(item.id)}>
       <LinearGradient
         style={{
           // backgroundColor: colors.backgroundSecondary,
@@ -105,6 +105,9 @@ const Home = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <TouchableOpacity onPress={handleClick}>
+        <Text>Remove Wallet</Text>
+      </TouchableOpacity>
       {/* <ScrollView contentContainerStyle={{ flexGrow: 1 }}> */}
       <View style={{ flex: 1 }}>
         <View

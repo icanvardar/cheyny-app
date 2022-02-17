@@ -1,5 +1,6 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import WelcomeScreen from "../../screens/Welcome";
 // Screens which are located in CreateWalletScreen
 import CreatePasswordScreen from "../../screens/CreateWallet/CreatePassword";
