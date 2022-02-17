@@ -28,7 +28,7 @@ const Home = ({ navigation }) => {
 
   const [productToStart, setProductToStart] = useState(2);
 
-  const listRef = useRef();
+  const listRef = useRef(null);
 
   useEffect(() => {
     console.log(listRef.current);
@@ -118,11 +118,11 @@ const Home = ({ navigation }) => {
         <FlatList
           ref={listRef}
           showsHorizontalScrollIndicator={false}
-          initialScrollIndex={productToStart}
+          // initialScrollIndex={productToStart}
           horizontal
           data={productData}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id.toString()}
         />
       </View>
       {/* </ScrollView> */}

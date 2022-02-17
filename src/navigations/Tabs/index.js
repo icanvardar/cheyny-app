@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import Drawer from "../../navigations/Drawer";
-import Home from "../../screens/Home";
+import Drawer from "../../navigations/Drawer";
+// import Home from "../../screens/Home";
 import ScanScreen from "../../screens/Scan";
 import HistoryScreen from "../../screens/History";
 import SettingsScreen from "../../screens/Settings";
@@ -21,7 +21,7 @@ const Tabs = () => {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
-            if (route.name === "Home") {
+            if (route.name === "Drawer") {
               iconName = focused ? "home" : "home-outline";
             } else if (route.name === "Scan") {
               iconName = focused ? "scan" : "scan-outline";
@@ -49,7 +49,7 @@ const Tabs = () => {
           },
         })}
       >
-        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Drawer" component={Drawer} />
         <Tab.Screen name="Scan" component={ScanScreen} />
         <Tab.Screen name="History" component={HistoryScreen} />
         <Tab.Screen name="Settings" component={SettingsScreen} />

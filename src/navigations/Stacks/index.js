@@ -1,5 +1,5 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import WelcomeScreen from "../../screens/Welcome";
 // Screens which are located in CreateWalletScreen
 import CreatePasswordScreen from "../../screens/CreateWallet/CreatePassword";
@@ -11,10 +11,10 @@ import CongratulationsScreen from "../../screens/Congratulations";
 
 import { THEME } from "../../constants";
 
-const MainStack = createNativeStackNavigator();
+const MainStack = createStackNavigator();
 
-const CreateWalletStack = createNativeStackNavigator();
-const ImportWalletStack = createNativeStackNavigator();
+const CreateWalletStack = createStackNavigator();
+const ImportWalletStack = createStackNavigator();
 
 const CreateWalletStacks = () => {
   return (
