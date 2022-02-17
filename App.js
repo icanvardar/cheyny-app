@@ -1,4 +1,5 @@
 import "@ethersproject/shims";
+import React from "react";
 import { StatusBar } from "expo-status-bar";
 import Root from "./src/navigations";
 import { ApolloProvider } from "@apollo/client";

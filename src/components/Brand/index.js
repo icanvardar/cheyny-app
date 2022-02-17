@@ -15,7 +15,7 @@ const Brand = ({ hasBackButton = false }) => {
           onPress={() => {
             navigation.goBack();
           }}
-          style={{ position: "absolute", top: 18, zIndex: 1 }}
+          style={{ position: "absolute", top: SIZES.windowHeight / 35, zIndex: 1 }}
         >
           <Ionicons name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
@@ -41,6 +41,6 @@ const Brand = ({ hasBackButton = false }) => {
 export default Brand;
 
 const styles = StyleSheet.create({
-  container: { alignItems: "center", paddingTop: SIZES.windowHeight / 100 },
+  container: { alignItems: "center", paddingTop: SIZES.windowHeight / 35 },
   brandName: { fontFamily: "Costigue", fontSize: SIZES.h1 },
 });

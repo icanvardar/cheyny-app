@@ -37,7 +37,7 @@ const VerifyMnemonics = ({ navigation }) => {
     setMnemonics([...mnemonics, phrase]);
   };
 
-  const handleNavigation = async () => {
+  const _handleNavigation = async () => {
     setActing(true);
     const navigateTimeout = setTimeout(async () => {
       navigation.navigate("Congratulations", {
@@ -126,7 +126,7 @@ const VerifyMnemonics = ({ navigation }) => {
         {/* Bottom components */}
         <View style={styles.bottomContainer}>
           <Button
-            onPress={handleNavigation}
+            onPress={_handleNavigation}
             title={"Continue"}
             disabled={!isMnemonicsGiven}
             loading={isActing}

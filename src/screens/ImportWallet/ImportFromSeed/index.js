@@ -32,7 +32,7 @@ const ImportFromSeed = ({ navigation }) => {
   const importWallet = useStore((state) => state.importWallet);
   const createPassword = useStore((state) => state.createPassword);
 
-  const handleNavigation = async () => {
+  const _handleNavigation = async () => {
     setActing(true);
     const importWalletTimeout = setTimeout(async () => {
       await importWallet(secretRecoveryPhrase);
@@ -83,7 +83,7 @@ const ImportFromSeed = ({ navigation }) => {
           <View style={styles.passwordsContainer}>
             {/* Secret recovery phrase container */}
             <InputField
-              multiline
+              // multiline
               isTogglable={true}
               title={"Secret Recovery Phrase"}
               onChangeText={(text) => setSecretRecoveryPhrase(text)}
@@ -143,7 +143,7 @@ const ImportFromSeed = ({ navigation }) => {
         </View>
         <View style={styles.bottomContainer}>
           <Button
-            onPress={handleNavigation}
+            onPress={_handleNavigation}
             disabled={!isPasswordGiven}
             title={"Import"}
             loading={isActing}

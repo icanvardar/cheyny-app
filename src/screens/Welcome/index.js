@@ -67,6 +67,6 @@ const styles = StyleSheet.create({
   terms: { textDecorationLine: "underline" },
   infoBox: { paddingTop: SIZES.windowWidth / 8 },
   infoBoxHeader: { fontSize: SIZES.h5, paddingBottom: 12 },
-  infoBoxBody: { opacity: 0.5 },
+  infoBoxBody: { opacity: 0.5, fontSize: 16 },
   importWalletButton: { marginBottom: 18 },
 });

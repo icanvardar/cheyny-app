@@ -19,7 +19,7 @@ const ImportFromSeed = ({ route }) => {
 
   const checkWallet = useStore((state) => state.checkWallet);
 
-  const handleNavigation = async () => {
+  const _handleNavigation = async () => {
     setActing(true);
     const checkWalletTimeout = setTimeout(async () => {
       await checkWallet();
@@ -80,7 +80,7 @@ const ImportFromSeed = ({ route }) => {
         </View>
         <View style={styles.bottomContainer}>
           <Button
-            onPress={handleNavigation}
+            onPress={_handleNavigation}
             title={"Done"}
             loading={isActing}
           />

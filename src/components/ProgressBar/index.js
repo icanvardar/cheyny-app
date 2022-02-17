@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   pinPointText: {
     opacity: 0.6,
-    fontSize: 10,
+    fontSize: 12,
     textAlign: "center",
   },
 });

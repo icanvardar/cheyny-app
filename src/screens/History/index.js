@@ -1,11 +1,13 @@
-import { View, Text } from 'react-native';
-import React from 'react';
+import { View, Text } from "react-native";
+import React from "react";
+import Container from "../../components/Container";
+import Heading from "../../components/Heading";
 
 const History = () => {
   return (
-    <View>
-      <Text></Text>
-    </View>
+    <Container>
+      <Heading title={"History"} />
+    </Container>
   );
 };
 

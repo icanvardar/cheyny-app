@@ -26,7 +26,7 @@ const CreatePassword = ({ navigation }) => {
   const createPassword = useStore((state) => state.createPassword);
   const createWallet = useStore((state) => state.createWallet);
 
-  const handleNavigation = async (givenPassword) => {
+  const _handleNavigation = async (givenPassword) => {
     setActing(true);
     // sets password to SecureStore
     await createPassword(givenPassword);
@@ -127,7 +127,7 @@ const CreatePassword = ({ navigation }) => {
         </View>
         <View style={styles.bottomContainer}>
           <Button
-            onPress={() => handleNavigation(password)}
+            onPress={() => _handleNavigation(password)}
             disabled={!isPasswordGiven}
             title={"Create Password"}
             loading={isActing}

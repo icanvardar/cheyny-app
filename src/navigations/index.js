@@ -4,6 +4,7 @@ import useStore from "../store/useStore";
 import { useFonts } from "expo-font";
 import Stacks from "./Stacks";
 import Tabs from "./Tabs";
+import React from "react";
 
 import * as SplashScreen from "expo-splash-screen";
 
