@@ -37,7 +37,7 @@ const ImportFromSeed = ({ navigation }) => {
     const importWalletTimeout = setTimeout(async () => {
       await importWallet(secretRecoveryPhrase);
       await createPassword(password);
-      console.log(secretRecoveryPhrase);
+      // console.log(secretRecoveryPhrase);
       navigation.navigate("Congratulations", { importedOrCreated: "imported" });
       setActing(false);
     }, 3000);

@@ -67,7 +67,7 @@ const VerifyMnemonics = ({ navigation }) => {
   }, [givenMnemonics]);
 
   useEffect(() => {
-    console.log(wallet);
+    // console.log(wallet);
   }, []);
 
   return (

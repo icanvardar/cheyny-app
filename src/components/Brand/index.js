@@ -4,7 +4,7 @@ import { SIZES } from "../../constants";
 import { useNavigation, useTheme } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
-const Brand = ({ hasBackButton = false }) => {
+const Brand = ({ hasBackButton = false, size = "default" }) => {
   const { colors } = useTheme();
   const navigation = useNavigation();
 
@@ -15,7 +15,11 @@ const Brand = ({ hasBackButton = false }) => {
           onPress={() => {
             navigation.goBack();
           }}
-          style={{ position: "absolute", top: SIZES.windowHeight / 35, zIndex: 1 }}
+          style={{
+            position: "absolute",
+            top: SIZES.windowHeight / 35,
+            zIndex: 1,
+          }}
         >
           <Ionicons name="arrow-back" size={24} color={colors.text} />
         </TouchableOpacity>
@@ -26,6 +30,14 @@ const Brand = ({ hasBackButton = false }) => {
             [
               {
                 color: colors.primary,
+                fontSize:
+                  size === "default"
+                    ? SIZES.h1
+                    : size === "medium"
+                    ? SIZES.h3
+                    : size === "small"
+                    ? SIZES.h5
+                    : null,
               },
               styles.brandName,
             ],
@@ -42,5 +54,5 @@ export default Brand;
 
 const styles = StyleSheet.create({
   container: { alignItems: "center", paddingTop: SIZES.windowHeight / 35 },
-  brandName: { fontFamily: "Costigue", fontSize: SIZES.h1 },
+  brandName: { fontFamily: "Costigue" },
 });

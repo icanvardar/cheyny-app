@@ -30,10 +30,6 @@ const Home = ({ navigation }) => {
 
   const listRef = useRef(null);
 
-  useEffect(() => {
-    console.log(listRef.current);
-  }, listRef.current);
-
   const handleClick = async () => {
     await removeWallet();
     await removePassword();

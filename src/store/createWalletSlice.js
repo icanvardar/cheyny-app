@@ -39,6 +39,7 @@ const createWalletSlice = (set, get) => ({
     const { privateKey } = JSON.parse(
       await SecureStore.getItemAsync(WALLET_STORE_KEY)
     );
+    console.log(privateKey);
     set({ wallet: get().walletHandler.loadWallet(privateKey) });
     console.log("fetchWallet: Wallet fetched!");
   },
