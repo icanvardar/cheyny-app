@@ -1,12 +1,14 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text } from "react-native";
+import React from "react";
+import Container from "../../../components/Container";
+import AdvancedHeader from "../../../components/AdvancedHeader";
 
 const Repair = () => {
   return (
-    <View>
-      <Text>Repair</Text>
-    </View>
-  )
-}
+    <Container>
+      <AdvancedHeader />
+    </Container>
+  );
+};
 
-export default Repair
+export default Repair;

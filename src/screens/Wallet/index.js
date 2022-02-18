@@ -41,7 +41,10 @@ const Home = ({ navigation }) => {
   };
 
   const _handleNavigation = (tokenId) => {
-    navigation.navigate("Product", { tokenId });
+    navigation.navigate("Drawer", {
+      screen: "Product",
+      params: { tokenId },
+    });
   };
 
   const ProductCard = ({ item }) => (

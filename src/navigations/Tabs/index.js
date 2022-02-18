@@ -25,7 +25,7 @@ const WalletStacks = () => {
       />
       <WalletStack.Screen
         options={{ headerShown: false }}
-        name="Product"
+        name="Drawer"
         component={Drawer}
       />
     </WalletStack.Navigator>

@@ -1,12 +1,14 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text } from "react-native";
+import React from "react";
+import AdvancedHeader from "../../../components/AdvancedHeader";
+import Container from "../../../components/Container";
 
-const Proof = () => {
+const Proof = ({ route }) => {
   return (
-    <View>
-      <Text>Proof</Text>
-    </View>
-  )
-}
+    <Container>
+      <AdvancedHeader/>
+    </Container>
+  );
+};
 
-export default Proof
+export default Proof;
