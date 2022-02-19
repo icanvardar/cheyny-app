@@ -8,8 +8,7 @@ import HistoryScreen from "../../screens/History";
 import SettingsScreen from "../../screens/Settings";
 import CertificateScreen from "../../screens/Wallet/Certificate";
 import React from "react";
-
-import { Ionicons } from "@expo/vector-icons";
+import { Image } from "react-native";
 
 import { THEME } from "../../constants";
 
@@ -19,32 +18,37 @@ const WalletStack = createStackNavigator();
 const Tabs = () => {
   return (
     <Tab.Navigator
-      tabBarOptions={{ showLabel: false }}
+      tabBarOptions={{
+        showLabel: false,
+        style: {
+          borderTopColor: THEME.colors.primary,
+          borderTopWidth: 1,
+        },
+      }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
+          let icon;
 
           if (route.name === "Wallet") {
-            iconName = focused ? "home" : "home-outline";
+            icon = focused
+              ? require("../../../assets/images/tab-icons/wallet-active.png")
+              : require("../../../assets/images/tab-icons/wallet-inactive.png");
           } else if (route.name === "Scan") {
-            iconName = focused ? "scan" : "scan-outline";
+            icon = focused
+              ? require("../../../assets/images/tab-icons/scan-active.png")
+              : require("../../../assets/images/tab-icons/scan-inactive.png");
           } else if (route.name === "History") {
-            iconName = focused ? "time" : "time-outline";
+            icon = focused
+              ? require("../../../assets/images/tab-icons/history-active.png")
+              : require("../../../assets/images/tab-icons/history-inactive.png");
           } else if (route.name === "Settings") {
-            iconName = focused ? "settings" : "settings-outline";
+            icon = focused
+              ? require("../../../assets/images/tab-icons/settings-active.png")
+              : require("../../../assets/images/tab-icons/settings-inactive.png");
           }
 
           // You can return any component that you like here!
-          return (
-            <Ionicons
-              name={iconName}
-              size={size}
-              color={THEME.colors.primary}
-            />
-          );
-        },
-        tabBarStyle: {
-          borderTopColor: THEME.colors.primary,
+          return <Image source={icon} />;
         },
       })}
     >
