@@ -1,50 +1,320 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
-import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  Image,
+  FlatList,
+  ScrollView,
+} from "react-native";
+import React, { useEffect, useState } from "react";
 import Container from "../../../components/Container";
 import AdvancedHeader from "../../../components/AdvancedHeader";
 import CustomText from "../../../components/CustomText";
+import Button from "../../../components/Button";
+import { LinearGradient } from "expo-linear-gradient";
 
-import { gql, useQuery } from "@apollo/client";
+import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { useTheme } from "@react-navigation/native";
 import { SIZES } from "../../../constants";
+import { timeDifference } from "../../../helpers/timeManipulations";
 
 const GET_TOKEN = gql`
-  query Token($id: Int!) {
+  query GetToken($id: Int!) {
     token(id: $id) {
-      id
-      displayImage
+      tokenID
+      tokenURI
+      creator {
+        id
+      }
     }
   }
 `;
 
 const Product = ({ navigation, route }) => {
-  const { tokenId } = route.params;
+  const { item } = route.params;
+
+  const [isDetailsExpanded, setDetailsExpanded] = useState(false);
+
+  // console.log(item);
 
   const { colors } = useTheme();
 
-  const { loading, error, data } = useQuery(GET_TOKEN, {
-    variables: { tokenId },
+  const [getToken, { called, loading, error, data }] = useLazyQuery(GET_TOKEN, {
+    variables: { id: item.id },
+    fetchPolicy: "network-only",
   });
+
+  useEffect(() => {
+    if (item && item.id) {
+      getToken();
+    }
+  }, [item]);
+
+  if (data) {
+    // console.log(data);
+  }
+
+  if (called && loading) {
+    // console.log("called and loading");
+  }
+
+  const _renderSpecification = ({ item: specificationItem }) => {
+    return <SpecificationBox specificationItem={specificationItem} />;
+  };
+
+  const SpecificationBox = ({ specificationItem }) => {
+    return (
+      <LinearGradient
+        style={{
+          // backgroundColor: colors.backgroundSecondary,
+          borderRadius: 8,
+          height: SIZES.windowWidth / 5.5,
+          width: SIZES.windowWidth / 5.5,
+          borderColor: "#2D3C65",
+          borderWidth: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          padding: 6,
+          marginRight: 18,
+        }}
+        colors={["#2A3656", "#112031"]}
+      >
+        <CustomText
+          style={{
+            fontSize: 12,
+            textAlign: "center",
+            color: colors.text,
+            opacity: 0.75,
+          }}
+        >
+          {specificationItem.name}
+        </CustomText>
+      </LinearGradient>
+    );
+  };
+
+  const InfoBox = ({ info }) => {
+    const keys = Object.keys(info);
+
+    return (
+      <View>
+        {keys.map((key, index) => {
+          let value = info[keys[index]];
+          const str =
+            keys[index].charAt(0).toUpperCase() + keys[index].slice(1);
+
+          return (
+            <View
+              key={key}
+              style={{
+                borderRadius: 50,
+                width: SIZES.windowWidth / 5,
+                height: SIZES.windowWidth / 5,
+                borderColor: colors.primary,
+                borderWidth: 2,
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 2,
+                marginVertical: SIZES.windowWidth / 75,
+              }}
+            >
+              <CustomText style={{ color: colors.text, fontSize: 12 }}>
+                {str}
+              </CustomText>
+              <CustomText
+                fontWeight="bold"
+                style={{ color: colors.text, fontSize: 12 }}
+              >
+                {value}
+              </CustomText>
+            </View>
+          );
+        })}
+      </View>
+    );
+  };
+
+  const HistoryBox = ({ history, tokenId }) => {
+    const actionHandler = (action) => {
+      let text;
+
+      if (action === "BUY") {
+        text = "bought";
+      } else if (action === "MINT") {
+        text = "minted";
+      } else if (action === "TRANSFER") {
+        text = "transferred";
+      }
+
+      // console.log(text);
+      return text;
+    };
+
+    const DotCircle = () => {
+      return (
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 8,
+            borderRadius: 50,
+            borderWidth: 0.5,
+            borderColor: colors.primary,
+            height: 8,
+            width: 8,
+            marginRight: 6,
+          }}
+        >
+          <View
+            style={{
+              height: 8,
+              width: 8,
+              backgroundColor: colors.primary,
+              borderRadius: 50,
+            }}
+          ></View>
+        </View>
+      );
+    };
+
+    return (
+      <View style={{ marginBottom: 24, marginTop: 8 }}>
+        {history.map((h, index) => (
+          <View
+            key={index.toString()}
+            style={{ flexDirection: "row", alignItems: "center" }}
+          >
+            <DotCircle />
+            <CustomText
+              style={{
+                color: colors.text,
+                opacity: 0.75,
+                paddingVertical: SIZES.windowWidth / 72,
+              }}
+            >
+              Token #{tokenId} {actionHandler(h.action)}{" "}
+              {timeDifference(Date.now())} ago.
+            </CustomText>
+          </View>
+        ))}
+      </View>
+    );
+  };
 
   return (
     <Container>
       <AdvancedHeader />
-      {loading && (
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          <ActivityIndicator color={colors.primary} size={"large"} />
-          <CustomText
-            style={{
-              color: colors.text,
-              marginTop: SIZES.windowWidth / 24,
-              opacity: 0.75,
-            }}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
+        {loading && (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
-            Fetching token data...
-          </CustomText>
-        </View>
-      )}
+            <ActivityIndicator color={colors.primary} size={"large"} />
+            <CustomText
+              style={{
+                color: colors.text,
+                marginTop: SIZES.windowWidth / 24,
+                opacity: 0.75,
+              }}
+            >
+              Fetching token data...
+            </CustomText>
+          </View>
+        )}
+        {data && (
+          <View>
+            <View>
+              <CustomText
+                style={{
+                  color: colors.text,
+                  fontSize: SIZES.h5,
+                  marginTop: SIZES.windowWidth / 24,
+                }}
+                fontWeight={"bold"}
+              >
+                {item.name} {item.type}
+              </CustomText>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: 18,
+              }}
+            >
+              <InfoBox info={item.info} />
+              <Image
+                style={{ width: SIZES.windowWidth / 2 }}
+                resizeMode="contain"
+                source={{ uri: `https://ipfs.io/ipfs/${item.image}` }}
+              />
+            </View>
+            <View>
+              <CustomText
+                style={{
+                  color: colors.text,
+                  fontSize: SIZES.p,
+                  marginTop: SIZES.windowWidth / 18,
+                }}
+              >
+                Specifications
+              </CustomText>
+              <FlatList
+                style={{ marginTop: 12 }}
+                horizontal
+                data={item.specifications}
+                renderItem={_renderSpecification}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </View>
+            <View>
+              <CustomText
+                style={{
+                  color: colors.text,
+                  fontSize: SIZES.p,
+                  marginTop: SIZES.windowWidth / 18,
+                }}
+              >
+                Details
+              </CustomText>
+              <TouchableOpacity
+                onPress={() => setDetailsExpanded(!isDetailsExpanded)}
+              >
+                <CustomText
+                  style={{ marginTop: 10, color: colors.text, opacity: 0.7 }}
+                >
+                  {isDetailsExpanded ? item.details : item.details.slice(0, 80)}{" "}
+                  {!isDetailsExpanded && item.details.length >= 80 && (
+                    <CustomText
+                      fontWeight="bold"
+                      style={{ color: colors.primary, opacity: 0.75 }}
+                    >
+                      More...
+                    </CustomText>
+                  )}
+                </CustomText>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <CustomText
+                style={{
+                  color: colors.text,
+                  fontSize: SIZES.p,
+                  marginTop: SIZES.windowWidth / 18,
+                }}
+              >
+                History
+              </CustomText>
+              <HistoryBox history={item.history} tokenId={item.id} />
+            </View>
+          </View>
+        )}
+      </ScrollView>
+      <Button title={"My Certificate"} />
     </Container>
   );
 };

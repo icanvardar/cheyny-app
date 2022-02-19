@@ -36,15 +36,15 @@ const Home = ({ navigation }) => {
     await checkWallet();
   };
 
-  const _handleNavigation = (tokenId) => {
+  const _handleNavigation = (item) => {
     navigation.navigate("Drawer", {
       screen: "Product",
-      params: { tokenId },
+      params: { item },
     });
   };
 
   const ProductCard = ({ item }) => (
-    <TouchableOpacity onPress={() => _handleNavigation(item.id)}>
+    <TouchableOpacity onPress={() => _handleNavigation(item)}>
       <LinearGradient
         style={{
           // backgroundColor: colors.backgroundSecondary,
@@ -104,9 +104,9 @@ const Home = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <TouchableOpacity onPress={handleClick}>
+      {/* <TouchableOpacity onPress={handleClick}>
         <Text>Remove Wallet</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       {/* <ScrollView contentContainerStyle={{ flexGrow: 1 }}> */}
       <View style={{ flex: 1 }}>
         <View

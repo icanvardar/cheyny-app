@@ -4,63 +4,147 @@
         "image": "QmZSTNGaecoEjogJD1zw6qnh2hZL26WvfjPHkYeeH87ZCE",
         "name": "Consensux",
         "type": "Watch",
+        "serialNumber": "67644",
         "specifications": [
-            "Rose Gold",
-            "Water proof to 30m"
+            {
+                "name": "Rose Gold",
+                "image": ""
+            },
+            {
+                "name": "Water proof to 30m",
+                "image": ""
+            }
         ],
-        "details": "Manually wound mechanical movement. Caliber CHR 29‑535 PS Q. Split-Seconds ch",
+        "details": "Manually wound mechanical movement. Caliber CHR 29‑535 PS Q. Split-Seconds ch it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues ",
         "info": {
             "amount": 10,
             "year": 1990,
             "country": "Italy"
-        }
+        },
+        "history": [
+            {
+                "action": "BUY",
+                "actor": "0x101023213"
+            },
+            {
+                "action": "MINT",
+                "actor": "0x101023213"
+            },
+            {
+                "action": "TRANSFER",
+                "actor": "0x101023213"
+            }
+        ]
     },
     {
         "id": 2,
         "image": "QmZSTNGaecoEjogJD1zw6qnh2hZL26WvfjPHkYeeH87ZCE",
         "name": "Consensux",
         "type": "Watch",
+        "serialNumber": "67644",
         "specifications": [
-            "Rose Gold",
-            "Water proof to 30m"
+            {
+                "name": "Rose Gold",
+                "image": ""
+            },
+            {
+                "name": "Water proof to 30m",
+                "image": ""
+            }
         ],
         "details": "Manually wound mechanical movement. Caliber CHR 29‑535 PS Q. Split-Seconds ch",
         "info": {
             "amount": 10,
             "year": 1990,
             "country": "Italy"
-        }
+        },
+        "history": [
+            {
+                "action": "BUY",
+                "actor": "0x101023213"
+            },
+            {
+                "action": "MINT",
+                "actor": "0x101023213"
+            },
+            {
+                "action": "TRANSFER",
+                "actor": "0x101023213"
+            }
+        ]
     },
     {
         "id": 3,
         "image": "QmZSTNGaecoEjogJD1zw6qnh2hZL26WvfjPHkYeeH87ZCE",
         "name": "Consensux",
         "type": "Watch",
+        "serialNumber": "67644",
         "specifications": [
-            "Rose Gold",
-            "Water proof to 30m"
+            {
+                "name": "Rose Gold",
+                "image": ""
+            },
+            {
+                "name": "Water proof to 30m",
+                "image": ""
+            }
         ],
         "details": "Manually wound mechanical movement. Caliber CHR 29‑535 PS Q. Split-Seconds ch",
         "info": {
             "amount": 10,
             "year": 1990,
             "country": "Italy"
-        }
+        },
+        "history": [
+            {
+                "action": "BUY",
+                "actor": "0x101023213"
+            },
+            {
+                "action": "MINT",
+                "actor": "0x101023213"
+            },
+            {
+                "action": "TRANSFER",
+                "actor": "0x101023213"
+            }
+        ]
     },
     {
         "id": 4,
         "image": "QmZSTNGaecoEjogJD1zw6qnh2hZL26WvfjPHkYeeH87ZCE",
         "name": "Consensux",
         "type": "Watch",
+        "serialNumber": "67644",
         "specifications": [
-            "Rose Gold",
-            "Water proof to 30m"
+            {
+                "name": "Rose Gold",
+                "image": ""
+            },
+            {
+                "name": "Water proof to 30m",
+                "image": ""
+            }
         ],
         "details": "Manually wound mechanical movement. Caliber CHR 29‑535 PS Q. Split-Seconds ch",
         "info": {
             "amount": 10,
             "year": 1990,
             "country": "Italy"
-        }
+        },
+        "history": [
+            {
+                "action": "BUY",
+                "actor": "0x101023213"
+            },
+            {
+                "action": "MINT",
+                "actor": "0x101023213"
+            },
+            {
+                "action": "TRANSFER",
+                "actor": "0x101023213"
+            }
+        ]
     }
 ]

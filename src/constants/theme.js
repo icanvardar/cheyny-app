@@ -1,4 +1,4 @@
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import { DefaultTheme } from "@react-navigation/native";
 
 // Default theme that is used for theme provider
 const THEME = {
