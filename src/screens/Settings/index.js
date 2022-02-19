@@ -140,7 +140,11 @@ const Settings = () => {
             data={ABOUT_LIST_ITEMS}
             keyExtractor={(item) => item.title}
             renderItem={(data) => _renderItem(data, ABOUT_LIST_ITEMS.length)}
-            ListFooterComponent={<Brand size="small" />}
+            ListFooterComponent={
+              <View style={{ marginBottom: 24 }}>
+                <Brand size="small" />
+              </View>
+            }
           />
         </View>
       </ScrollView>

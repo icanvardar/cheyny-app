@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { SIZES } from "../../constants";
 import { useNavigation, useTheme } from "@react-navigation/native";
 
-const AdvancedHeader = () => {
+const AdvancedHeader = ({ hasDrawerButton = true }) => {
   const navigation = useNavigation();
 
   const { colors } = useTheme();
@@ -26,9 +26,11 @@ const AdvancedHeader = () => {
       >
         <Ionicons name="arrow-back" size={24} color={colors.text} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-        <Image source={require("../../../assets/images/drawer-icon.png")} />
-      </TouchableOpacity>
+      {hasDrawerButton && (
+        <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+          <Image source={require("../../../assets/images/drawer-icon.png")} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

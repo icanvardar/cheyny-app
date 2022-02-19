@@ -59,6 +59,10 @@ const Product = ({ navigation, route }) => {
     // console.log("called and loading");
   }
 
+  const _handleCertificateNavigation = () => {
+    navigation.navigate("Certificate", { item });
+  };
+
   const _renderSpecification = ({ item: specificationItem }) => {
     return <SpecificationBox specificationItem={specificationItem} />;
   };
@@ -314,7 +318,7 @@ const Product = ({ navigation, route }) => {
           </View>
         )}
       </ScrollView>
-      <Button title={"My Certificate"} />
+      <Button onPress={_handleCertificateNavigation} title={"My Certificate"} />
     </Container>
   );
 };
