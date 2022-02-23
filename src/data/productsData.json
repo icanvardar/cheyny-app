@@ -13,13 +13,21 @@
             {
                 "name": "Water proof to 30m",
                 "image": ""
+            },
+            {
+                "name": "Calfskin",
+                "image": ""
+            },
+            {
+                "name": "18K gold",
+                "image": ""
             }
         ],
-        "details": "Manually wound mechanical movement. Caliber CHR 29‑535 PS Q. Split-Seconds ch it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues it continues ",
+        "details": "Rose gold case with a matching slate gray dial and strap. Manually wound mechanical movement. Split-Seconds chronograph. Instantaneous 30-minute counter. Perpetual calendar. Day, month, leap year and day/night indication displayed in apertures. Date indicated by hand. Moon phases. Small seconds.",
         "info": {
             "amount": 10,
             "year": 1990,
-            "country": "Italy"
+            "country": "UK"
         },
         "history": [
             {
@@ -38,24 +46,32 @@
     },
     {
         "id": 2,
-        "image": "QmZSTNGaecoEjogJD1zw6qnh2hZL26WvfjPHkYeeH87ZCE",
-        "name": "Consensux",
-        "type": "Watch",
+        "image": "Qmaoxstqp7Wn1zu3anbQnJtRapELQkTDw6peRB8we8y4Tw",
+        "name": "Dioleto",
+        "type": "Ring",
         "serialNumber": "67644",
         "specifications": [
             {
-                "name": "Rose Gold",
+                "name": "Gold",
                 "image": ""
             },
             {
-                "name": "Water proof to 30m",
+                "name": "Diamond",
+                "image": ""
+            },
+            {
+                "name": "1.1 carats",
+                "image": ""
+            },
+            {
+                "name": "VS1",
                 "image": ""
             }
         ],
-        "details": "Manually wound mechanical movement. Caliber CHR 29‑535 PS Q. Split-Seconds ch",
+        "details": "The round brilliant center diamond is giving this timeless ring a feminine spirit with clean, contemporary lines. A slender band of micro-pavé-set diamonds lends the brilliant Dioleto a distinctly romantic sensibility with a modern edge.",
         "info": {
-            "amount": 10,
-            "year": 1990,
+            "amount": 1247,
+            "year": 2013,
             "country": "Italy"
         },
         "history": [
@@ -75,62 +91,33 @@
     },
     {
         "id": 3,
-        "image": "QmZSTNGaecoEjogJD1zw6qnh2hZL26WvfjPHkYeeH87ZCE",
-        "name": "Consensux",
-        "type": "Watch",
+        "image": "QmfTyQTtkrdfAhwsw8gTcMEJRen11AhSewYyXbddY9VY4J",
+        "name": "Savalon",
+        "type": "Diamond",
         "serialNumber": "67644",
         "specifications": [
             {
-                "name": "Rose Gold",
+                "name": "Diamond",
                 "image": ""
             },
             {
-                "name": "Water proof to 30m",
-                "image": ""
-            }
-        ],
-        "details": "Manually wound mechanical movement. Caliber CHR 29‑535 PS Q. Split-Seconds ch",
-        "info": {
-            "amount": 10,
-            "year": 1990,
-            "country": "Italy"
-        },
-        "history": [
-            {
-                "action": "BUY",
-                "actor": "0x101023213"
-            },
-            {
-                "action": "MINT",
-                "actor": "0x101023213"
-            },
-            {
-                "action": "TRANSFER",
-                "actor": "0x101023213"
-            }
-        ]
-    },
-    {
-        "id": 4,
-        "image": "QmZSTNGaecoEjogJD1zw6qnh2hZL26WvfjPHkYeeH87ZCE",
-        "name": "Consensux",
-        "type": "Watch",
-        "serialNumber": "67644",
-        "specifications": [
-            {
-                "name": "Rose Gold",
+                "name": "247 facets",
                 "image": ""
             },
             {
-                "name": "Water proof to 30m",
+                "name": "273.8 carats",
+                "image": ""
+            },
+            {
+                "name": "54.7 grams",
                 "image": ""
             }
         ],
-        "details": "Manually wound mechanical movement. Caliber CHR 29‑535 PS Q. Split-Seconds ch",
+        "details": "Savalon Diamond measures 39.90 × 50.50 × 24.55 mm. The final gem had 247 facets: 164 on the pavilion and crown, and 83 on the girdle.",
         "info": {
-            "amount": 10,
-            "year": 1990,
-            "country": "Italy"
+            "amount": 357,
+            "year": 1996,
+            "country": "Zambia"
         },
         "history": [
             {

@@ -5,14 +5,18 @@ import { useFonts } from "expo-font";
 import Stacks from "./Stacks";
 import Tabs from "./Tabs";
 import React from "react";
+import PasswordScreen from "../screens/Password";
 
 import * as SplashScreen from "expo-splash-screen";
 
 const Root = () => {
   const [appIsReady, setAppIsReady] = useState(false);
+  const [appHasPassword, setAppHasPassword] = useState();
   const isWalletCreated = useStore((state) => state.isWalletCreated);
   const checkWallet = useStore((state) => state.checkWallet);
   const fetchWallet = useStore((state) => state.fetchWallet);
+  const hasPassword = useStore((state) => state.hasPassword);
+  const isPasswordEntered = useStore((state) => state.isPasswordEntered);
 
   let [fontsLoaded] = useFonts({
     Costigue: require("../../assets/fonts/Costigue/Costigue.ttf"),
@@ -33,6 +37,8 @@ const Root = () => {
         await SplashScreen.preventAutoHideAsync();
         await checkWallet();
         await fetchWallet();
+        const val = await hasPassword();
+        setAppHasPassword(val);
         await new Promise((resolve) => setTimeout(resolve, 2000));
       } catch (e) {
         console.warn(e);
@@ -58,15 +64,30 @@ const Root = () => {
     return null;
   }
 
+  const AppHandler = () => {
+    if (isWalletCreated) {
+      if (appHasPassword === true && isPasswordEntered === true) {
+        return <Tabs />;
+      } else {
+        return <PasswordScreen />;
+      }
+    } else if (!isWalletCreated) {
+      return <Stacks />;
+    }
+
+    return <Text>This screen will be information screen!</Text>;
+  };
+
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      {isWalletCreated === true ? (
+      {/* {isWalletCreated === true ? (
         <Tabs />
       ) : isWalletCreated === false ? (
         <Stacks />
       ) : (
         <Text>This screen will be information screen!</Text>
-      )}
+      )} */}
+      <AppHandler />
     </View>
   );
 };

@@ -54,7 +54,7 @@ const Tabs = () => {
     >
       <Tab.Screen name="Wallet" component={WalletScreen} />
       <Tab.Screen name="Scan" component={ScanScreen} />
-      <Tab.Screen name="History" component={HistoryScreen} />
+      {/* <Tab.Screen name="History" component={HistoryScreen} /> */}
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );

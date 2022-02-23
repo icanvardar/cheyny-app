@@ -93,7 +93,7 @@ const Certificate = ({ navigation, route }) => {
                   marginTop: 6,
                 }}
               >
-                Serial Number: 6632
+                Serial Number: {item.serialNumber}
               </CustomText>
             </View>
             <View
@@ -144,7 +144,7 @@ const Certificate = ({ navigation, route }) => {
                       size={SIZES.windowWidth / 2.5}
                       color={colors.primary}
                       backgroundColor={colors.background}
-                      value="6632"
+                      value={item.serialNumber}
                     />
                   </View>
                   <CustomText

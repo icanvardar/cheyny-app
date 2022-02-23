@@ -2,11 +2,11 @@ import moment from "moment";
 
 const dateIdentifier = {
   dates: {
-    week: "h",
-    day: "g",
-    hour: "s",
-    minute: "dk",
-    second: "sec",
+    week: "w",
+    day: "d",
+    hour: "h",
+    minute: "m",
+    second: "s",
   },
 };
 
@@ -14,7 +14,7 @@ const dateIdentifier = {
 // -text- is represents calculated dates text value like days to d or weeks to w etc.
 // text arguement comes from constants/text.js
 export const timeDifference = (date) => {
-  const initialDate = moment(date).local();
+  const initialDate = moment.unix(date);
   const now = moment();
 
   // get the difference between the moments
@@ -26,15 +26,15 @@ export const timeDifference = (date) => {
   if (diffDuration.years() !== 0 || diffDuration.months() !== 0) {
     return moment(initialDate).format("DD-MM-YYYY");
   } else if (diffDuration.weeks() !== 0) {
-    return diffDuration.weeks() + " " + dateIdentifier.dates.week;
+    return diffDuration.weeks() + dateIdentifier.dates.week;
   } else if (diffDuration.days() !== 0) {
-    return diffDuration.days() + " " + dateIdentifier.dates.day;
+    return diffDuration.days() + dateIdentifier.dates.day;
   } else if (diffDuration.hours() !== 0) {
-    return diffDuration.hours() + " " + dateIdentifier.dates.hour;
+    return diffDuration.hours() + dateIdentifier.dates.hour;
   } else if (diffDuration.minutes() !== 0) {
-    return diffDuration.minutes() + " " + dateIdentifier.dates.minute;
+    return diffDuration.minutes() + dateIdentifier.dates.minute;
   } else {
-    return diffDuration.seconds() + " " + dateIdentifier.dates.second;
+    return diffDuration.seconds() + dateIdentifier.dates.second;
   }
 };
 

@@ -8,7 +8,7 @@ const Heading = ({ title }) => {
   const { colors } = useTheme();
 
   return (
-    <View>
+    <View style={styles.container}>
       <CustomText
         style={[{ color: colors.text }, styles.headingText]}
         fontWeight="bold"
@@ -22,5 +22,8 @@ const Heading = ({ title }) => {
 export default Heading;
 
 const styles = StyleSheet.create({
+  container: {
+    marginTop: SIZES.windowWidth / 24,
+  },
   headingText: { fontSize: SIZES.h3 },
 });

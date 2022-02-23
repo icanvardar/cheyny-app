@@ -18,6 +18,7 @@ import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { useTheme } from "@react-navigation/native";
 import { SIZES } from "../../../constants";
 import { timeDifference } from "../../../helpers/timeManipulations";
+import axios from "axios";
 
 const GET_TOKEN = gql`
   query GetToken($id: Int!) {
@@ -27,26 +28,52 @@ const GET_TOKEN = gql`
       creator {
         id
       }
+      histories {
+        action
+        from {
+          id
+        }
+        to {
+          id
+        }
+        createdAtTimestamp
+      }
     }
   }
 `;
 
 const Product = ({ navigation, route }) => {
   const { item } = route.params;
+  const [tokenMetadata, setTokenMetadata] = useState();
 
   const [isDetailsExpanded, setDetailsExpanded] = useState(false);
-
-  // console.log(item);
 
   const { colors } = useTheme();
 
   const [getToken, { called, loading, error, data }] = useLazyQuery(GET_TOKEN, {
-    variables: { id: item.id },
+    variables: { id: parseInt(item.tokenID) },
     fetchPolicy: "network-only",
+    onCompleted: async (res) => {
+      let uri = res.token.tokenURI.replace("ipfs://", "");
+      // console.log(uri);
+      const { data } = await axios.get(`https://ipfs.io/ipfs/${uri}`);
+      setTokenMetadata({
+        ...data,
+        tokenID: res.token.tokenID,
+        histories: res.token.histories,
+      });
+      return data;
+    },
   });
 
   useEffect(() => {
-    if (item && item.id) {
+    // console.log("------------");
+    // console.log(tokenMetadata);
+    // console.log("------------");
+  }, [tokenMetadata]);
+
+  useEffect(() => {
+    if (item && item.tokenID) {
       getToken();
     }
   }, [item]);
@@ -60,7 +87,7 @@ const Product = ({ navigation, route }) => {
   }
 
   const _handleCertificateNavigation = () => {
-    navigation.navigate("Certificate", { item });
+    navigation.navigate("Certificate", { item: tokenMetadata });
   };
 
   const _renderSpecification = ({ item: specificationItem }) => {
@@ -139,7 +166,7 @@ const Product = ({ navigation, route }) => {
     );
   };
 
-  const HistoryBox = ({ history, tokenId }) => {
+  const HistoryBox = ({ histories, tokenId }) => {
     const actionHandler = (action) => {
       let text;
 
@@ -154,6 +181,8 @@ const Product = ({ navigation, route }) => {
       // console.log(text);
       return text;
     };
+
+    console.log(histories);
 
     const DotCircle = () => {
       return (
@@ -184,7 +213,7 @@ const Product = ({ navigation, route }) => {
 
     return (
       <View style={{ marginBottom: 24, marginTop: 8 }}>
-        {history.map((h, index) => (
+        {histories.map((h, index) => (
           <View
             key={index.toString()}
             style={{ flexDirection: "row", alignItems: "center" }}
@@ -198,7 +227,7 @@ const Product = ({ navigation, route }) => {
               }}
             >
               Token #{tokenId} {actionHandler(h.action)}{" "}
-              {timeDifference(Date.now())} ago.
+              {timeDifference(h.createdAtTimestamp)} ago.
             </CustomText>
           </View>
         ))}
@@ -229,7 +258,7 @@ const Product = ({ navigation, route }) => {
             </CustomText>
           </View>
         )}
-        {data && (
+        {tokenMetadata && data && (
           <View>
             <View>
               <CustomText
@@ -240,7 +269,7 @@ const Product = ({ navigation, route }) => {
                 }}
                 fontWeight={"bold"}
               >
-                {item.name} {item.type}
+                {tokenMetadata.name} {tokenMetadata.type}
               </CustomText>
             </View>
             <View
@@ -250,11 +279,11 @@ const Product = ({ navigation, route }) => {
                 marginTop: 18,
               }}
             >
-              <InfoBox info={item.info} />
+              <InfoBox info={tokenMetadata.info} />
               <Image
                 style={{ width: SIZES.windowWidth / 2 }}
                 resizeMode="contain"
-                source={{ uri: `https://ipfs.io/ipfs/${item.image}` }}
+                source={{ uri: `https://ipfs.io/ipfs/${tokenMetadata.image}` }}
               />
             </View>
             <View>
@@ -270,9 +299,10 @@ const Product = ({ navigation, route }) => {
               <FlatList
                 style={{ marginTop: 12 }}
                 horizontal
-                data={item.specifications}
+                data={tokenMetadata && tokenMetadata.specifications}
                 renderItem={_renderSpecification}
                 keyExtractor={(item, index) => index.toString()}
+                showsHorizontalScrollIndicator={false}
               />
             </View>
             <View>
@@ -291,8 +321,10 @@ const Product = ({ navigation, route }) => {
                 <CustomText
                   style={{ marginTop: 10, color: colors.text, opacity: 0.7 }}
                 >
-                  {isDetailsExpanded ? item.details : item.details.slice(0, 80)}{" "}
-                  {!isDetailsExpanded && item.details.length >= 80 && (
+                  {isDetailsExpanded
+                    ? tokenMetadata.details
+                    : tokenMetadata.details.slice(0, 80)}{" "}
+                  {!isDetailsExpanded && tokenMetadata.details.length >= 80 && (
                     <CustomText
                       fontWeight="bold"
                       style={{ color: colors.primary, opacity: 0.75 }}
@@ -313,12 +345,20 @@ const Product = ({ navigation, route }) => {
               >
                 History
               </CustomText>
-              <HistoryBox history={item.history} tokenId={item.id} />
+              <HistoryBox
+                histories={tokenMetadata && tokenMetadata.histories}
+                tokenId={tokenMetadata.tokenID}
+              />
             </View>
           </View>
         )}
       </ScrollView>
-      <Button onPress={_handleCertificateNavigation} title={"My Certificate"} />
+      {data && (
+        <Button
+          onPress={_handleCertificateNavigation}
+          title={"My Certificate"}
+        />
+      )}
     </Container>
   );
 };
