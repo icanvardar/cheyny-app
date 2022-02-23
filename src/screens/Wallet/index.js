@@ -68,6 +68,7 @@ const Home = ({ navigation }) => {
 
   useEffect(async () => {
     const prepare = async () => {
+      // console.log("Address------" + wallet.address.toLowerCase());
       await getTokens({ variables: { owner: wallet.address.toLowerCase() } });
     };
 

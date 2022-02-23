@@ -5,7 +5,8 @@ import {
   ScrollView,
   FlatList,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
+import { TransferTokenContext } from "../../context/TransferTokenProvider";
 
 import Container from "../../components/Container";
 import Heading from "../../components/Heading";
@@ -43,6 +44,8 @@ const Settings = () => {
       Clipboard.setString(wallet.address);
     }
   };
+
+  const { balance } = useContext(TransferTokenContext);
 
   const _renderItem = ({ item, index }, itemsLength) => (
     <TouchableOpacity
@@ -84,24 +87,48 @@ const Settings = () => {
           ]}
         >
           {wallet && (
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <CustomText
-                style={{ color: colors.primary, opacity: 0.75, fontSize: 18 }}
-                fontWeight={"bold"}
+            <>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
               >
-                {wallet.address.slice(0, 5)}...
-                {wallet.address.slice(-4, wallet.address.length)}
-              </CustomText>
-              <TouchableOpacity onPress={copyToClipboard}>
-                <Feather name="copy" size={18} color={colors.primary} />
+                <CustomText
+                  style={{ color: colors.text, opacity: 0.75, fontSize: 18 }}
+                  fontWeight={"bold"}
+                >
+                  {wallet.address.slice(0, 5)}...
+                  {wallet.address.slice(-4, wallet.address.length)}
+                </CustomText>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <CustomText
+                  style={{ color: colors.text, opacity: 0.75, fontSize: 18 }}
+                  fontWeight={"bold"}
+                >
+                  Balance: {balance && balance} AVAX
+                </CustomText>
+              </View>
+              <TouchableOpacity
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  paddingRight: SIZES.paddingHorizontal,
+                  marginTop: 24,
+                }}
+                onPress={copyToClipboard}
+              >
+                <Feather name="copy" size={24} color={colors.primary} />
               </TouchableOpacity>
-            </View>
+            </>
           )}
         </View>
         <View>

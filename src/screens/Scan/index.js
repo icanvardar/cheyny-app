@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Text, View, StyleSheet, Button, Image } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { SIZES } from "../../constants";
 import CustomText from "../../components/CustomText";
 import { useTheme } from "@react-navigation/native";
+import { ethers } from "ethers";
+import { TransferTokenContext } from "../../context/TransferTokenProvider";
 
-const Scan = () => {
+const Scan = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
+  const { setReceiverAddress } = useContext(TransferTokenContext);
 
   const { colors } = useTheme();
 
@@ -18,9 +20,21 @@ const Scan = () => {
     })();
   }, []);
 
+  function isAddress(address) {
+    try {
+      ethers.utils.getAddress(address);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
   const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    // console.log(data);
+    if (isAddress(data)) {
+      setReceiverAddress(data);
+      navigation.navigate("Send Token");
+    }
   };
 
   if (hasPermission === null) {
@@ -33,12 +47,9 @@ const Scan = () => {
   return (
     <View style={styles.container}>
       <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        onBarCodeScanned={(data) => handleBarCodeScanned(data)}
         style={StyleSheet.absoluteFillObject}
       />
-      {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
-      )}
       <View style={styles.frameHolder}>
         <View style={{ paddingBottom: SIZES.windowWidth / 2, opacity: 1 }}>
           <Image

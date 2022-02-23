@@ -5,6 +5,7 @@ import Drawer from "../../navigations/Drawer";
 import WalletScreen from "../../screens/Wallet";
 import ScanScreen from "../../screens/Scan";
 import HistoryScreen from "../../screens/History";
+import SendTokenScreen from "../../screens/Scan/SendToken";
 import SettingsScreen from "../../screens/Settings";
 import CertificateScreen from "../../screens/Wallet/Certificate";
 import React from "react";
@@ -14,6 +15,24 @@ import { THEME } from "../../constants";
 
 const Tab = createBottomTabNavigator();
 const WalletStack = createStackNavigator();
+const ScanStack = createStackNavigator();
+
+const ScanStacks = () => {
+  return (
+    <ScanStack.Navigator>
+      <ScanStack.Screen
+        options={{ headerShown: false }}
+        name="Scan"
+        component={ScanScreen}
+      />
+      <ScanStack.Screen
+        options={{ headerShown: false }}
+        name="Send Token"
+        component={SendTokenScreen}
+      />
+    </ScanStack.Navigator>
+  );
+};
 
 const Tabs = () => {
   return (
@@ -53,7 +72,7 @@ const Tabs = () => {
       })}
     >
       <Tab.Screen name="Wallet" component={WalletScreen} />
-      <Tab.Screen name="Scan" component={ScanScreen} />
+      <Tab.Screen name="Scan" component={ScanStacks} />
       {/* <Tab.Screen name="History" component={HistoryScreen} /> */}
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
