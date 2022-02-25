@@ -15,6 +15,7 @@ const useSendToken = () => {
   const [txn, setTxn] = useState();
 
   const sendToken = async (privateKey, to, tokenID) => {
+    console.log("sendToken methods triggered.");
     try {
       setTxnSending(true);
       const wallet = new ethers.Wallet(privateKey);
@@ -36,7 +37,7 @@ const useSendToken = () => {
       const txnResult = await cheynyContract.transferFrom(
         from,
         to,
-        selectedTokenId.toString(),
+        tokenID.toString(),
         {
           gasLimit: GAS_LIMIT,
           gasPrice,

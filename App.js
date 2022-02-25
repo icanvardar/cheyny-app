@@ -4,7 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import Root from "./src/navigations";
 import { ApolloProvider } from "@apollo/client";
 import apolloClient from "./src/utils/apolloClient";
-import { BottomModalProvider } from "react-native-bottom-modal";
+// import { BottomModalProvider } from "react-native-bottom-modal";
 import TokenTransferProvider from "./src/context/TransferTokenProvider";
 
 export default function App() {
@@ -12,10 +12,10 @@ export default function App() {
     <>
       <ApolloProvider client={apolloClient}>
         <TokenTransferProvider>
-          <BottomModalProvider>
+          {/* <BottomModalProvider> */}
             <StatusBar style="light" />
             <Root />
-          </BottomModalProvider>
+          {/* </BottomModalProvider> */}
         </TokenTransferProvider>
       </ApolloProvider>
     </>

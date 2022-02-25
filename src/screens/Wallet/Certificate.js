@@ -164,7 +164,7 @@ const Certificate = ({ navigation, route }) => {
                       size={SIZES.windowWidth / 2.5}
                       color={colors.primary}
                       backgroundColor={colors.background}
-                      value={item.serialNumber}
+                      value={`https://ipfs.io/ipfs/${item.tokenURI.replace("ipfs://", "")}`}
                     />
                   </View>
                   <CustomText

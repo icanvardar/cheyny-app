@@ -7,6 +7,7 @@ import ScanScreen from "../../screens/Scan";
 import HistoryScreen from "../../screens/History";
 import SendTokenScreen from "../../screens/Scan/SendToken";
 import SettingsScreen from "../../screens/Settings";
+import ChangePasswordScreen from "../../screens/Settings/ChangePassword";
 import CertificateScreen from "../../screens/Wallet/Certificate";
 import React from "react";
 import { Image } from "react-native";
@@ -16,6 +17,7 @@ import { THEME } from "../../constants";
 const Tab = createBottomTabNavigator();
 const WalletStack = createStackNavigator();
 const ScanStack = createStackNavigator();
+const SettingsStack = createStackNavigator();
 
 const ScanStacks = () => {
   return (
@@ -29,6 +31,23 @@ const ScanStacks = () => {
         options={{ headerShown: false }}
         name="Send Token"
         component={SendTokenScreen}
+      />
+    </ScanStack.Navigator>
+  );
+};
+
+const SettingsStacks = () => {
+  return (
+    <ScanStack.Navigator>
+      <ScanStack.Screen
+        options={{ headerShown: false }}
+        name="Settings"
+        component={SettingsScreen}
+      />
+      <ScanStack.Screen
+        options={{ headerShown: false }}
+        name="Change Password"
+        component={ChangePasswordScreen}
       />
     </ScanStack.Navigator>
   );
@@ -74,7 +93,7 @@ const Tabs = () => {
       <Tab.Screen name="Wallet" component={WalletScreen} />
       <Tab.Screen name="Scan" component={ScanStacks} />
       {/* <Tab.Screen name="History" component={HistoryScreen} /> */}
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Settings" component={SettingsStacks} />
     </Tab.Navigator>
   );
 };

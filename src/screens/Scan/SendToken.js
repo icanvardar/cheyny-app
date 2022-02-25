@@ -21,6 +21,7 @@ import axios from "axios";
 import { useBottomModal } from "react-native-bottom-modal";
 import { FontAwesome } from "@expo/vector-icons";
 import useSendToken from "../../hooks/useSendToken";
+import useBalance from "../../hooks/useBalance";
 
 const WALLET_STORE_KEY = "wallet";
 
@@ -33,15 +34,17 @@ const GET_TOKENS = gql`
   }
 `;
 
-const SendToken = () => {
+const SendToken = ({ navigation }) => {
   const [walletInstance, setWalletInstance] = useState();
   const [privateKey, setPrivateKey] = useState();
   const [products, setProducts] = useState();
   const { selectedTokenId, setSelectedTokenId, receiverAddress } =
     useContext(TransferTokenContext);
   const [isTxnSending, isTxnSent, sendToken, txn] = useSendToken();
+  const [balance, getBalance] = useBalance();
+  const [isTokenSending, setIsTokenSending] = useState(false);
 
-  const { showModal } = useBottomModal();
+  const { showModal, closeModal } = useBottomModal();
 
   const [getTokens, { data, loading, called, error }] = useLazyQuery(
     GET_TOKENS,
@@ -65,6 +68,12 @@ const SendToken = () => {
     console.log(selectedTokenId);
   }, [selectedTokenId]);
 
+  useEffect(async () => {
+    if (privateKey) {
+      await getBalance(privateKey);
+    }
+  }, [privateKey]);
+
   const _getIpfsData = async (tokenUri) => {
     let uri = tokenUri.replace("ipfs://", "");
     const { data } = await axios.get(`https://ipfs.io/ipfs/${uri}`);
@@ -84,8 +93,18 @@ const SendToken = () => {
   };
 
   const _sendToken = async () => {
-    if (privateKey && walletInstance && receiverAddress && selectedTokenId) {
+    try {
+      setIsTokenSending(true);
       await sendToken(privateKey, receiverAddress, selectedTokenId);
+      setIsTokenSending(false);
+    } catch (err) {
+      setIsTokenSending(false);
+      alert(
+        "An error occured while trying to send the token #" +
+          selectedTokenId +
+          "."
+      );
+      console.log(err);
     }
   };
 
@@ -95,7 +114,9 @@ const SendToken = () => {
 
   useEffect(() => {
     if (isTxnSent) {
-      alert("TXN SENT!");
+      alert("Transaction sent!");
+      closeModal();
+      navigation.goBack();
     }
   }, [isTxnSent]);
 
@@ -173,8 +194,18 @@ const SendToken = () => {
             }}
             onPress={!isTxnSending && !isTxnSent && _sendToken}
           >
-            {isTxnSending ? (
-              <ActivityIndicator color={colors.primary} />
+            {balance && parseFloat(balance) < 0.5 ? (
+              <CustomText
+                style={{
+                  textAlign: "center",
+                  color: colors.text,
+                  opacity: 0.75,
+                }}
+              >
+                In order to send token you have to have at least 0.5 AVAX.
+              </CustomText>
+            ) : isTokenSending ? (
+              <ActivityIndicator size={"small"} color={colors.primary} />
             ) : (
               <FontAwesome name="send" size={24} color={colors.primary} />
             )}

@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
   ActivityIndicator,
+  RefreshControl,
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import CustomText from "../../components/CustomText";
@@ -94,12 +95,6 @@ const Home = ({ navigation }) => {
 
   const listRef = useRef(null);
 
-  const handleClick = async () => {
-    await removeWallet();
-    await removePassword();
-    await checkWallet();
-  };
-
   const _handleNavigation = (item) => {
     // console.log(item);
     navigation.navigate("Drawer", {
@@ -114,9 +109,13 @@ const Home = ({ navigation }) => {
         style={{
           // backgroundColor: colors.backgroundSecondary,
           borderRadius: 8,
-          height: SIZES.windowWidth / 0.8,
-          width: SIZES.windowWidth / 1.35,
-          marginLeft: SIZES.windowWidth / 20,
+          height: SIZES.windowWidth / 0.9,
+          width:
+            products && products.length === 1
+              ? SIZES.windowWidth / 1.2
+              : SIZES.windowWidth / 1.35,
+          marginLeft:
+            products && products.length !== 1 ? SIZES.windowWidth / 20 : 0,
           justifyContent: "space-between",
           paddingHorizontal: SIZES.windowWidth / 14,
         }}
@@ -170,7 +169,7 @@ const Home = ({ navigation }) => {
           style={{
             // backgroundColor: colors.backgroundSecondary,
             borderRadius: 8,
-            height: SIZES.windowWidth / 0.8,
+            height: SIZES.windowWidth / 0.9,
             width: SIZES.windowWidth / 1.2,
             justifyContent: "space-between",
             paddingHorizontal: SIZES.windowWidth / 14,
@@ -228,34 +227,54 @@ const Home = ({ navigation }) => {
         >
           <Heading title={"My Wallet"} />
         </View>
-        {loading && (
-          <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
-            <ActivityIndicator size={"large"} color={colors.primary} />
-          </View>
-        )}
-        {products && products.length > 0 && (
-          <>
-            <FlatList
-              ref={listRef}
-              showsHorizontalScrollIndicator={false}
-              showsVerticalScrollIndicator={false}
+        <ScrollView
+          style={{ flexGrow: 1 }}
+          refreshControl={
+            <RefreshControl
+              tintColor={colors.primary}
               refreshing={refreshing}
               onRefresh={_onRefresh}
-              // initialScrollIndex={productToStart}
-              horizontal
-              data={products && products}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.tokenID}
             />
-          </>
-        )}
-        {products && products.length === 0 && (
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <EmptyComponent />
-          </View>
-        )}
+          }
+        >
+          {loading && (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <ActivityIndicator size={"large"} color={colors.primary} />
+            </View>
+          )}
+          {products && products.length > 0 && (
+            <>
+              <FlatList
+                contentContainerStyle={{
+                  width: products && products.length === 1 ? "100%" : "auto",
+                  justifyContent:
+                    products && products.length === 1 ? "center" : "flex-start",
+                }}
+                ref={listRef}
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
+                refreshing={refreshing}
+                onRefresh={_onRefresh}
+                // initialScrollIndex={productToStart}
+                horizontal
+                data={products && products}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.tokenID}
+              />
+            </>
+          )}
+          {products && products.length === 0 && (
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+              <EmptyComponent />
+            </View>
+          )}
+        </ScrollView>
       </View>
       {/* </ScrollView> */}
     </SafeAreaView>

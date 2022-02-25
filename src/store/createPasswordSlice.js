@@ -32,6 +32,10 @@ const createPasswordSlice = (set, get) => ({
     await SecureStore.deleteItemAsync(PASSWORD_STORE_KEY);
     console.log("removePassword: Password removed!");
   },
+  changePassword: async (newPassword) => {
+    await SecureStore.setItemAsync(PASSWORD_STORE_KEY, newPassword);
+    console.log("changePassword: Password changed!");
+  },
 });
 
 export default createPasswordSlice;

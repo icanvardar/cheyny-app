@@ -45,7 +45,7 @@
     "react-native-screens": "~3.8.0",
     "react-native-svg": "^12.1.1",
     "react-native-web": "0.17.1",
-    "react-spring": "^9.4.3",
+    "react-spring": "^8.0.27",
     "zustand": "^3.6.9"
   },
   "devDependencies": {

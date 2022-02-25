@@ -6,6 +6,7 @@ import {
   FlatList,
   Modal,
   Pressable,
+  RefreshControl,
 } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import QRCode from "react-native-qrcode-svg";
@@ -29,6 +30,7 @@ import useBalance from "../../hooks/useBalance";
 const SECURITY_LIST_ITEMS = [
   { title: "Change Password" },
   { title: "Network" },
+  { title: "Logout" },
 ];
 
 const ABOUT_LIST_ITEMS = [
@@ -40,13 +42,18 @@ const ABOUT_LIST_ITEMS = [
   { title: "User Agreements" },
 ];
 
-const Settings = () => {
+const Settings = ({ navigation }) => {
   const [isModaVisible, setModalVisible] = useState(false);
   const wallet = useStore((state) => state.wallet);
   const privateKey = useStore((state) => state.privateKey);
   const { colors } = useTheme();
 
+  const removeWallet = useStore((store) => store.removeWallet);
+  const removePassword = useStore((store) => store.removePassword);
+  const checkWallet = useStore((store) => store.checkWallet);
+
   const [balance, getBalance] = useBalance();
+  const [refreshing, setRefreshing] = useState(false);
 
   const copyToClipboard = () => {
     if (wallet && wallet.address) {
@@ -54,17 +61,31 @@ const Settings = () => {
     }
   };
 
-  useEffect(async () => {
-    const getBalanceTimeout = setTimeout(
-      async () => await getBalance(privateKey),
-      1000
-    );
+  const handleLogout = async () => {
+    await removeWallet();
+    await removePassword();
+    await checkWallet();
+  };
 
-    return () => clearTimeout(getBalanceTimeout);
+  useEffect(async () => {
+    await getBalance(privateKey);
   }, []);
+
+  const _onRefresh = async () => {
+    setRefreshing(true);
+    await getBalance(privateKey);
+    setRefreshing(false);
+  };
 
   const _renderItem = ({ item, index }, itemsLength) => (
     <TouchableOpacity
+      onPress={async () => {
+        if (item.title === "Change Password") {
+          navigation.navigate(item.title);
+        } else if (item.title === "Logout") {
+          await handleLogout();
+        }
+      }}
       style={[
         styles.listItem,
         {
@@ -93,6 +114,13 @@ const Settings = () => {
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            tintColor={colors.primary}
+            refreshing={refreshing}
+            onRefresh={_onRefresh}
+          />
+        }
       >
         <View
           style={[
@@ -130,7 +158,7 @@ const Settings = () => {
                   style={{ color: colors.text, opacity: 0.75, fontSize: 18 }}
                   fontWeight={"bold"}
                 >
-                  Balance: {balance && balance} AVAX
+                  Balance: {balance && parseFloat(balance).toFixed(2)} AVAX
                 </CustomText>
               </View>
               <View
@@ -228,7 +256,10 @@ const Settings = () => {
                 value={wallet.address}
               />
             </View>
-            <CustomText fontWeight="bold" style={{ color: colors.text, marginTop: 12 }}>
+            <CustomText
+              fontWeight="bold"
+              style={{ color: colors.text, marginTop: 12 }}
+            >
               {wallet.address.slice(0, 5)}...
               {wallet.address.slice(-4, wallet.address.length)}
             </CustomText>
@@ -291,9 +322,9 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   modalView: {
-    margin: 20,
-    borderRadius: 20,
-    padding: 35,
+    borderRadius: 8,
+    paddingHorizontal: 35,
+    paddingVertical: 18,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -306,7 +337,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 12,
-    borderRadius: 20,
+    borderRadius: 8,
     padding: 10,
     elevation: 2,
   },
