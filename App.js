@@ -4,8 +4,14 @@ import { StatusBar } from "expo-status-bar";
 import Root from "./src/navigations";
 import { ApolloProvider } from "@apollo/client";
 import apolloClient from "./src/utils/apolloClient";
-// import { BottomModalProvider } from "react-native-bottom-modal";
 import TokenTransferProvider from "./src/context/TransferTokenProvider";
+
+import { Navigation } from "react-native-navigation";
+import { gestureHandlerRootHOC } from "react-native-gesture-handler";
+
+Navigation.registerComponent("com.sigma.cheyny", () =>
+  gestureHandlerRootHOC(App)
+);
 
 export default function App() {
   return (
@@ -13,8 +19,8 @@ export default function App() {
       <ApolloProvider client={apolloClient}>
         <TokenTransferProvider>
           {/* <BottomModalProvider> */}
-            <StatusBar style="light" />
-            <Root />
+          <StatusBar style="light" />
+          <Root />
           {/* </BottomModalProvider> */}
         </TokenTransferProvider>
       </ApolloProvider>
