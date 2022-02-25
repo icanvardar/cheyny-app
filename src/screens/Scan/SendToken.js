@@ -8,7 +8,7 @@ import {
   Button,
   ActivityIndicator,
 } from "react-native";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import Container from "../../components/Container";
 import { gql, useLazyQuery } from "@apollo/client";
 import { TransferTokenContext } from "../../context/TransferTokenProvider";
@@ -18,10 +18,11 @@ import { useTheme } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import { ethers } from "ethers";
 import axios from "axios";
-import { useBottomModal } from "react-native-bottom-modal";
 import { FontAwesome } from "@expo/vector-icons";
 import useSendToken from "../../hooks/useSendToken";
 import useBalance from "../../hooks/useBalance";
+
+import { Modalize } from "react-native-modalize";
 
 const WALLET_STORE_KEY = "wallet";
 
@@ -44,7 +45,17 @@ const SendToken = ({ navigation }) => {
   const [balance, getBalance] = useBalance();
   const [isTokenSending, setIsTokenSending] = useState(false);
 
-  const { showModal, closeModal } = useBottomModal();
+  const [selectedMetadata, setSelectedMetadata] = useState();
+
+  const modalizeRef = useRef(null);
+
+  const onOpen = () => {
+    modalizeRef.current?.open();
+  };
+
+  const closeModal = () => {
+    modalizeRef.current?.close();
+  };
 
   const [getTokens, { data, loading, called, error }] = useLazyQuery(
     GET_TOKENS,
@@ -116,7 +127,7 @@ const SendToken = ({ navigation }) => {
     if (isTxnSent) {
       alert("Transaction sent!");
       closeModal();
-      navigation.goBack();
+      navigation.navigate("Wallet");
     }
   }, [isTxnSent]);
 
@@ -138,81 +149,9 @@ const SendToken = ({ navigation }) => {
   };
 
   const _handleTokenPress = (item) => {
+    setSelectedMetadata(item);
     setSelectedTokenId(item.tokenID);
-    showModal({
-      // header: <ModalHeader />,
-      content: (
-        <View
-          style={{
-            width: SIZES.windowWidth,
-            backgroundColor: colors.background,
-            height: "100%",
-            borderTopRightRadius: 16,
-            borderTopLeftRadius: 16,
-            padding: SIZES.paddingHorizontal,
-            alignItems: "center",
-          }}
-        >
-          <CustomText
-            fontWeight="bold"
-            style={{
-              fontSize: SIZES.p,
-              color: colors.text,
-            }}
-          >
-            Complete Transaction
-          </CustomText>
-          <Image
-            style={{
-              height: SIZES.windowWidth / 2,
-              width: SIZES.windowWidth / 2,
-            }}
-            source={{ uri: `https://ipfs.io/ipfs/${item.image}` }}
-          />
-          <View style={{ justifyContent: "center", marginTop: -18 }}>
-            <CustomText
-              style={{ textAlign: "center", color: colors.text, opacity: 0.75 }}
-            >
-              Token #{item.tokenID}
-            </CustomText>
-            <CustomText
-              style={{ textAlign: "center", color: colors.text, opacity: 0.5 }}
-            >
-              {item.name} {item.type}
-            </CustomText>
-          </View>
-          <TouchableOpacity
-            disabled={isTxnSent}
-            style={{
-              borderRadius: 50,
-              backgroundColor: colors.backgroundSecondary,
-              padding: 18,
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 24,
-              textAlign: "center",
-            }}
-            onPress={!isTxnSending && !isTxnSent && _sendToken}
-          >
-            {balance && parseFloat(balance) < 0.5 ? (
-              <CustomText
-                style={{
-                  textAlign: "center",
-                  color: colors.text,
-                  opacity: 0.75,
-                }}
-              >
-                In order to send token you have to have at least 0.5 AVAX.
-              </CustomText>
-            ) : isTokenSending ? (
-              <ActivityIndicator size={"small"} color={colors.primary} />
-            ) : (
-              <FontAwesome name="send" size={24} color={colors.primary} />
-            )}
-          </TouchableOpacity>
-        </View>
-      ),
-    });
+    onOpen();
   };
 
   const _renderItem = ({ item }) => {
@@ -304,6 +243,102 @@ const SendToken = ({ navigation }) => {
           You need to get token before sending it!
         </CustomText>
       ) : null}
+      <Modalize
+        handleStyle={{ backgroundColor: colors.primary, opacity: 0.8 }}
+        modalHeight={SIZES.windowWidth / 1}
+        modalStyle={{
+          zIndex: 1,
+          borderTopRightRadius: 16,
+          borderTopLeftRadius: 16,
+          backgroundColor: colors.background,
+        }}
+        ref={modalizeRef}
+      >
+        {selectedMetadata && (
+          <View
+            style={{
+              width: SIZES.windowWidth,
+              backgroundColor: colors.background,
+              height: "100%",
+              borderTopRightRadius: 16,
+              borderTopLeftRadius: 16,
+              padding: SIZES.paddingHorizontal,
+              alignItems: "center",
+            }}
+          >
+            <CustomText
+              fontWeight="bold"
+              style={{
+                fontSize: SIZES.p,
+                color: colors.text,
+              }}
+            >
+              Complete Transaction
+            </CustomText>
+            {selectedMetadata && (
+              <Image
+                style={{
+                  height: SIZES.windowWidth / 2,
+                  width: SIZES.windowWidth / 2,
+                }}
+                source={{
+                  uri: `https://ipfs.io/ipfs/${selectedMetadata.image}`,
+                }}
+              />
+            )}
+            <View style={{ justifyContent: "center", marginTop: -18 }}>
+              <CustomText
+                style={{
+                  textAlign: "center",
+                  color: colors.text,
+                  opacity: 0.75,
+                }}
+              >
+                Token #{selectedMetadata && selectedMetadata.tokenID}
+              </CustomText>
+              <CustomText
+                style={{
+                  textAlign: "center",
+                  color: colors.text,
+                  opacity: 0.5,
+                }}
+              >
+                {selectedMetadata && selectedMetadata.name}{" "}
+                {selectedMetadata && selectedMetadata.type}
+              </CustomText>
+            </View>
+            <TouchableOpacity
+              disabled={isTxnSent}
+              style={{
+                borderRadius: 50,
+                backgroundColor: colors.backgroundSecondary,
+                padding: 18,
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 24,
+                textAlign: "center",
+              }}
+              onPress={!isTxnSending && !isTxnSent && _sendToken}
+            >
+              {balance && parseFloat(balance) < 0.5 ? (
+                <CustomText
+                  style={{
+                    textAlign: "center",
+                    color: colors.text,
+                    opacity: 0.75,
+                  }}
+                >
+                  In order to send token you have to have at least 0.5 AVAX.
+                </CustomText>
+              ) : isTokenSending ? (
+                <ActivityIndicator size={"small"} color={colors.primary} />
+              ) : (
+                <FontAwesome name="send" size={24} color={colors.primary} />
+              )}
+            </TouchableOpacity>
+          </View>
+        )}
+      </Modalize>
     </Container>
   );
 };

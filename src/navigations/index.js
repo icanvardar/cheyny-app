@@ -37,8 +37,10 @@ const Root = () => {
         await SplashScreen.preventAutoHideAsync();
         await checkWallet();
         await fetchWallet();
-        const val = await hasPassword();
-        setAppHasPassword(val);
+        hasPassword()
+          .then((val) => setAppHasPassword(val))
+          .catch((err) => console.log(err));
+
         await new Promise((resolve) => setTimeout(resolve, 2000));
       } catch (e) {
         console.warn(e);
@@ -65,6 +67,11 @@ const Root = () => {
   }
 
   const AppHandler = () => {
+    useEffect(() => {
+      console.log(appHasPassword);
+      console.log(isPasswordEntered);
+    }, [isPasswordEntered]);
+
     if (isWalletCreated) {
       if (appHasPassword === true && isPasswordEntered === true) {
         return <Tabs />;

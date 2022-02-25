@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   infoTextHolder: {
     position: "absolute",
-    bottom: SIZES.windowWidth / 2.5,
+    bottom: SIZES.windowWidth / 4,
     alignItems: "center",
     width: SIZES.windowWidth,
     paddingHorizontal: 48,

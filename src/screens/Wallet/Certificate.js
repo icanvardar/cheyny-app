@@ -6,22 +6,27 @@ import {
   TouchableOpacity,
   Share,
 } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import Container from "../../components/Container";
 import AdvancedHeader from "../../components/AdvancedHeader";
 import CustomText from "../../components/CustomText";
 import Button from "../../components/Button";
 import { useTheme } from "@react-navigation/native";
 import { SIZES } from "../../constants";
-import { useBottomModal } from "react-native-bottom-modal";
 import QRCode from "react-native-qrcode-svg";
+
+import { Modalize } from "react-native-modalize";
 
 const Certificate = ({ navigation, route }) => {
   const { item } = route.params;
 
   const { colors } = useTheme();
 
-  const { showModal } = useBottomModal();
+  const modalizeRef = useRef(null);
+
+  const onOpen = () => {
+    modalizeRef.current?.open();
+  };
 
   const onShare = async () => {
     try {
@@ -127,84 +132,93 @@ const Certificate = ({ navigation, route }) => {
         </View>
         <Button
           style={{ marginTop: SIZES.windowWidth / 6 }}
-          onPress={() =>
-            showModal({
-              // header: <ModalHeader />,
-              content: (
-                <View
-                  style={{
-                    width: SIZES.windowWidth,
-                    backgroundColor: colors.background,
-                    height: "100%",
-                    borderTopRightRadius: 16,
-                    borderTopLeftRadius: 16,
-                    padding: SIZES.paddingHorizontal,
-                    alignItems: "center",
-                  }}
-                >
-                  <CustomText
-                    fontWeight="bold"
-                    style={{
-                      fontSize: SIZES.p,
-                      color: colors.text,
-                    }}
-                  >
-                    QR Code of Your Certificate
-                  </CustomText>
-                  <View
-                    style={{
-                      borderRadius: 8,
-                      borderWidth: 1,
-                      borderColor: colors.primary,
-                      padding: 8,
-                      marginTop: SIZES.windowWidth / 24,
-                    }}
-                  >
-                    <QRCode
-                      size={SIZES.windowWidth / 2.5}
-                      color={colors.primary}
-                      backgroundColor={colors.background}
-                      value={`https://ipfs.io/ipfs/${item.tokenURI.replace("ipfs://", "")}`}
-                    />
-                  </View>
-                  <CustomText
-                    style={{
-                      textAlign: "center",
-                      color: colors.text,
-                      fontSize: 14,
-                      marginTop: 12,
-                    }}
-                  >
-                    This QR code can be scanned  as your proof of ownership
-                  </CustomText>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: colors.primary,
-                      width: "100%",
-                      alignItems: "center",
-                      paddingVertical: 8,
-                      borderRadius: 8,
-                      marginTop: 24,
-                    }}
-                    onPress={onShare}
-                  >
-                    <CustomText
-                      style={{
-                        color: colors.background,
-                        fontSize: SIZES.windowWidth / 25,
-                      }}
-                      fontWeight="bold"
-                    >
-                      Share Your Proof Of Ownership
-                    </CustomText>
-                  </TouchableOpacity>
-                </View>
-              ),
-            })
-          }
+          onPress={onOpen}
           title={"Generate Proof Of Ownership"}
         />
       </ScrollView>
+      <Modalize
+        handleStyle={{ backgroundColor: colors.primary, opacity: 0.8 }}
+        modalHeight={SIZES.windowWidth / 1}
+        modalStyle={{
+          zIndex: 1,
+          borderTopRightRadius: 16,
+          borderTopLeftRadius: 16,
+          backgroundColor: colors.background,
+        }}
+        ref={modalizeRef}
+      >
+        <View
+          style={{
+            width: SIZES.windowWidth,
+            backgroundColor: colors.background,
+            height: "100%",
+            borderTopRightRadius: 16,
+            borderTopLeftRadius: 16,
+            padding: SIZES.paddingHorizontal,
+            alignItems: "center",
+          }}
+        >
+          <CustomText
+            fontWeight="bold"
+            style={{
+              fontSize: SIZES.p,
+              color: colors.text,
+            }}
+          >
+            QR Code of Your Certificate
+          </CustomText>
+          <View
+            style={{
+              borderRadius: 8,
+              borderWidth: 1,
+              borderColor: colors.primary,
+              padding: 8,
+              marginTop: SIZES.windowWidth / 24,
+            }}
+          >
+            <QRCode
+              size={SIZES.windowWidth / 2.5}
+              color={colors.primary}
+              backgroundColor={colors.background}
+              value={`https://ipfs.io/ipfs/${item.tokenURI.replace(
+                "ipfs://",
+                ""
+              )}`}
+            />
+          </View>
+          <CustomText
+            style={{
+              textAlign: "center",
+              color: colors.text,
+              fontSize: 14,
+              marginTop: 12,
+            }}
+          >
+            This QR code can be scanned was your proof of ownership
+          </CustomText>
+          <TouchableOpacity
+            style={{
+              backgroundColor: colors.primary,
+              width: "100%",
+              alignItems: "center",
+              paddingVertical: 8,
+              borderRadius: 8,
+              marginTop: 24,
+            }}
+            onPress={onShare}
+          >
+            <CustomText
+              style={{
+                color: colors.background,
+                fontSize: SIZES.windowWidth / 25,
+              }}
+              fontWeight="bold"
+            >
+              Share Your Proof Of Ownership
+            </CustomText>
+          </TouchableOpacity>
+        </View>
+      </Modalize>
     </Container>
   );
 };
