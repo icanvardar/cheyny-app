@@ -3,7 +3,7 @@ import * as SecureStore from "expo-secure-store";
 const PASSWORD_STORE_KEY = "password";
 
 const createPasswordSlice = (set, get) => ({
-  isPasswordEntered: true,
+  isPasswordEntered: false,
   hasPassword: async () => {
     const foundPassword = await SecureStore.getItemAsync(PASSWORD_STORE_KEY);
 

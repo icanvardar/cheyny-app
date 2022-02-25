@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "cheyny-app",
+    "name": "Cheyny",
     "slug": "cheyny-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "cheyny.cheyny.com"
     },
     "web": {
       "favicon": "./assets/favicon.png"

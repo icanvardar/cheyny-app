@@ -21,6 +21,8 @@ import { Feather } from "@expo/vector-icons";
 import Brand from "../../components/Brand";
 import * as Clipboard from "expo-clipboard";
 
+import useBalance from "../../hooks/useBalance";
+
 const SECURITY_LIST_ITEMS = [
   { title: "Change Password" },
   { title: "Network" },
@@ -37,7 +39,10 @@ const ABOUT_LIST_ITEMS = [
 
 const Settings = () => {
   const wallet = useStore((state) => state.wallet);
+  const privateKey = useStore((state) => state.privateKey);
   const { colors } = useTheme();
+
+  const [balance, getBalance] = useBalance();
 
   const copyToClipboard = () => {
     if (wallet && wallet.address) {
@@ -45,7 +50,9 @@ const Settings = () => {
     }
   };
 
-  const { balance } = useContext(TransferTokenContext);
+  useEffect(() => {
+    getBalance(privateKey);
+  }, []);
 
   const _renderItem = ({ item, index }, itemsLength) => (
     <TouchableOpacity

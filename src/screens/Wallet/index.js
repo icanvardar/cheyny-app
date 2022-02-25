@@ -42,6 +42,8 @@ const Home = ({ navigation }) => {
 
   const [products, setProducts] = useState();
 
+  const [refreshing, setRefreshing] = useState(false);
+
   const _getIpfsData = async (tokenUri) => {
     let uri = tokenUri.replace("ipfs://", "");
     const { data } = await axios.get(`https://ipfs.io/ipfs/${uri}`);
@@ -49,7 +51,7 @@ const Home = ({ navigation }) => {
     return data;
   };
 
-  const [getTokens, { data, loading, called, error }] = useLazyQuery(
+  const [getTokens, { data, loading, called, error, refetch }] = useLazyQuery(
     GET_TOKENS,
     {
       onCompleted: async (data) => {
@@ -65,6 +67,18 @@ const Home = ({ navigation }) => {
       },
     }
   );
+
+  const _onRefresh = async () => {
+    try {
+      setRefreshing(true);
+      if (called) {
+        await refetch();
+      }
+      setRefreshing(false);
+    } catch (err) {
+      throw new Error(err);
+    }
+  };
 
   useEffect(async () => {
     const prepare = async () => {
@@ -226,6 +240,9 @@ const Home = ({ navigation }) => {
             <FlatList
               ref={listRef}
               showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              refreshing={refreshing}
+              onRefresh={_onRefresh}
               // initialScrollIndex={productToStart}
               horizontal
               data={products && products}

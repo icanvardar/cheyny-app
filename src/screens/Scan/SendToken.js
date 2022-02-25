@@ -19,6 +19,7 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { useBottomModal } from "react-native-bottom-modal";
 import { FontAwesome } from "@expo/vector-icons";
+import useSendToken from "../../hooks/useSendToken";
 
 const WALLET_STORE_KEY = "wallet";
 
@@ -34,13 +35,9 @@ const GET_TOKENS = gql`
 const SendToken = () => {
   const [walletInstance, setWalletInstance] = useState();
   const [products, setProducts] = useState();
-  const {
-    selectedTokenId,
-    setSelectedTokenId,
-    sendToken,
-    setReceiverAddress,
-    receiverAddress,
-  } = useContext(TransferTokenContext);
+  const { selectedTokenId, setSelectedTokenId, receiverAddress } =
+    useContext(TransferTokenContext);
+  const [isTxnSending, isTxnSent, sendToken] = useSendToken();
 
   const { showModal } = useBottomModal();
 
