@@ -33,16 +33,22 @@ const ImportFromSeed = ({ navigation }) => {
   const createPassword = useStore((state) => state.createPassword);
 
   const _handleNavigation = async () => {
-    setActing(true);
-    const importWalletTimeout = setTimeout(async () => {
-      await importWallet(secretRecoveryPhrase);
-      await createPassword(password);
-      // console.log(secretRecoveryPhrase);
-      navigation.navigate("Congratulations", { importedOrCreated: "imported" });
-      setActing(false);
-    }, 3000);
+    try {
+      setActing(true);
+      const importWalletTimeout = setTimeout(async () => {
+        await importWallet(secretRecoveryPhrase);
+        await createPassword(password);
+        // console.log(secretRecoveryPhrase);
+        navigation.navigate("Congratulations", {
+          importedOrCreated: "imported",
+        });
+        setActing(false);
+      }, 3000);
 
-    return () => clearTimeout(importWalletTimeout);
+      return () => clearTimeout(importWalletTimeout);
+    } catch (err) {
+      setActing(false);
+    }
   };
 
   useEffect(() => {

@@ -3,13 +3,14 @@ import { Text, View, StyleSheet, Button, Image } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { SIZES } from "../../constants";
 import CustomText from "../../components/CustomText";
-import { useTheme } from "@react-navigation/native";
+import { useTheme, useIsFocused } from "@react-navigation/native";
 import { ethers } from "ethers";
 import { TransferTokenContext } from "../../context/TransferTokenProvider";
 
 const Scan = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const { setReceiverAddress } = useContext(TransferTokenContext);
+  const isFocused = useIsFocused();
 
   const { colors } = useTheme();
 
@@ -30,7 +31,7 @@ const Scan = ({ navigation }) => {
   }
 
   const handleBarCodeScanned = ({ type, data }) => {
-    // console.log(data);
+    console.log(data);
     if (isAddress(data)) {
       setReceiverAddress(data);
       navigation.navigate("Send Token");
@@ -46,10 +47,12 @@ const Scan = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <BarCodeScanner
-        onBarCodeScanned={(data) => handleBarCodeScanned(data)}
-        style={StyleSheet.absoluteFillObject}
-      />
+      {isFocused && (
+        <BarCodeScanner
+          onBarCodeScanned={(data) => handleBarCodeScanned(data)}
+          style={StyleSheet.absoluteFillObject}
+        />
+      )}
       <View style={styles.frameHolder}>
         <View style={{ paddingBottom: SIZES.windowWidth / 2, opacity: 1 }}>
           <Image

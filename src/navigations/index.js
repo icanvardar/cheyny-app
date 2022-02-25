@@ -16,6 +16,8 @@ const Root = () => {
   const checkWallet = useStore((state) => state.checkWallet);
   const fetchWallet = useStore((state) => state.fetchWallet);
   const hasPassword = useStore((state) => state.hasPassword);
+  const removeWallet = useStore((state) => state.removeWallet);
+  const removePassword = useStore((state) => state.removePassword);
   const isPasswordEntered = useStore((state) => state.isPasswordEntered);
 
   let [fontsLoaded] = useFonts({
@@ -35,6 +37,8 @@ const Root = () => {
     async function prepare() {
       try {
         await SplashScreen.preventAutoHideAsync();
+        // await removePassword();
+        // await removeWallet();
         await checkWallet();
         await fetchWallet();
         hasPassword()
