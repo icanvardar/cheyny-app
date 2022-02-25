@@ -12,6 +12,7 @@ const GAS_LIMIT = "0x100000";
 const useSendToken = () => {
   const [isTxnSent, setTxnSent] = useState(false);
   const [isTxnSending, setTxnSending] = useState(false);
+  const [txn, setTxn] = useState();
 
   const sendToken = async (privateKey, to, tokenID) => {
     try {
@@ -45,6 +46,7 @@ const useSendToken = () => {
 
       setTxnSending(false);
       setTxnSent(true);
+      setTxn(txnResult);
 
       const txnLog = {
         from,
@@ -62,7 +64,7 @@ const useSendToken = () => {
     }
   };
 
-  return [isTxnSending, isTxnSent, sendToken];
+  return [isTxnSending, isTxnSent, sendToken, txn];
 };
 
 export default useSendToken;

@@ -71,7 +71,7 @@ const DrawerNavigator = () => {
             paddingVertical: SIZES.windowWidth / 24,
           }}
         >
-          <CustomDrawerItem
+          {/* <CustomDrawerItem
             {...props}
             label={"Proof of Ownership"}
             screenName={"Proof"}
@@ -80,7 +80,7 @@ const DrawerNavigator = () => {
             {...props}
             label={"Transfer my Certificate"}
             screenName={"Transfer"}
-          />
+          /> */}
           <CustomDrawerItem
             {...props}
             label={"Declare Missing"}

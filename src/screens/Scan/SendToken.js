@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import Container from "../../components/Container";
@@ -34,10 +35,11 @@ const GET_TOKENS = gql`
 
 const SendToken = () => {
   const [walletInstance, setWalletInstance] = useState();
+  const [privateKey, setPrivateKey] = useState();
   const [products, setProducts] = useState();
   const { selectedTokenId, setSelectedTokenId, receiverAddress } =
     useContext(TransferTokenContext);
-  const [isTxnSending, isTxnSent, sendToken] = useSendToken();
+  const [isTxnSending, isTxnSent, sendToken, txn] = useSendToken();
 
   const { showModal } = useBottomModal();
 
@@ -77,12 +79,25 @@ const SendToken = () => {
     );
     const foundWallet = new ethers.Wallet(privateKey);
     console.log(foundWallet);
+    setPrivateKey(privateKey);
     setWalletInstance(foundWallet);
+  };
+
+  const _sendToken = async () => {
+    if (privateKey && walletInstance && receiverAddress && selectedTokenId) {
+      await sendToken(privateKey, receiverAddress, selectedTokenId);
+    }
   };
 
   useEffect(() => {
     getWallet();
   }, []);
+
+  useEffect(() => {
+    if (isTxnSent) {
+      alert("TXN SENT!");
+    }
+  }, [isTxnSent]);
 
   useEffect(async () => {
     const prepare = async () => {
@@ -146,6 +161,7 @@ const SendToken = () => {
             </CustomText>
           </View>
           <TouchableOpacity
+            disabled={isTxnSent}
             style={{
               borderRadius: 50,
               backgroundColor: colors.backgroundSecondary,
@@ -155,9 +171,13 @@ const SendToken = () => {
               marginTop: 24,
               textAlign: "center",
             }}
-            onPress={sendToken}
+            onPress={!isTxnSending && !isTxnSent && _sendToken}
           >
-            <FontAwesome name="send" size={24} color={colors.primary} />
+            {isTxnSending ? (
+              <ActivityIndicator color={colors.primary} />
+            ) : (
+              <FontAwesome name="send" size={24} color={colors.primary} />
+            )}
           </TouchableOpacity>
         </View>
       ),
@@ -177,6 +197,7 @@ const SendToken = () => {
           paddingHorizontal: 24,
           flexDirection: "row",
           alignItems: "center",
+          marginVertical: 8,
         }}
       >
         <View>

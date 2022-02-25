@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Share,
 } from "react-native";
 import React from "react";
 import Container from "../../components/Container";
@@ -21,6 +22,25 @@ const Certificate = ({ navigation, route }) => {
   const { colors } = useTheme();
 
   const { showModal } = useBottomModal();
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: `https://ipfs.io/ipfs/${item.tokenURI.replace("ipfs://", "")}`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <Container>
@@ -164,8 +184,9 @@ const Certificate = ({ navigation, route }) => {
                       alignItems: "center",
                       paddingVertical: 8,
                       borderRadius: 8,
-                      marginTop: 24
+                      marginTop: 24,
                     }}
+                    onPress={onShare}
                   >
                     <CustomText
                       style={{

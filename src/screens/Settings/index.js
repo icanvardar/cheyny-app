@@ -4,9 +4,11 @@ import {
   TouchableOpacity,
   ScrollView,
   FlatList,
+  Modal,
+  Pressable,
 } from "react-native";
-import React, { useContext, useEffect } from "react";
-import { TransferTokenContext } from "../../context/TransferTokenProvider";
+import React, { useState, useContext, useEffect } from "react";
+import QRCode from "react-native-qrcode-svg";
 
 import Container from "../../components/Container";
 import Heading from "../../components/Heading";
@@ -16,6 +18,7 @@ import { SIZES } from "../../constants";
 import useStore from "../../store/useStore";
 
 import { MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
 import Brand from "../../components/Brand";
@@ -38,6 +41,7 @@ const ABOUT_LIST_ITEMS = [
 ];
 
 const Settings = () => {
+  const [isModaVisible, setModalVisible] = useState(false);
   const wallet = useStore((state) => state.wallet);
   const privateKey = useStore((state) => state.privateKey);
   const { colors } = useTheme();
@@ -50,8 +54,13 @@ const Settings = () => {
     }
   };
 
-  useEffect(() => {
-    getBalance(privateKey);
+  useEffect(async () => {
+    const getBalanceTimeout = setTimeout(
+      async () => await getBalance(privateKey),
+      1000
+    );
+
+    return () => clearTimeout(getBalanceTimeout);
   }, []);
 
   const _renderItem = ({ item, index }, itemsLength) => (
@@ -124,17 +133,25 @@ const Settings = () => {
                   Balance: {balance && balance} AVAX
                 </CustomText>
               </View>
-              <TouchableOpacity
+              <View
                 style={{
                   position: "absolute",
                   right: 0,
                   paddingRight: SIZES.paddingHorizontal,
                   marginTop: 24,
+                  flexDirection: "row",
                 }}
-                onPress={copyToClipboard}
               >
-                <Feather name="copy" size={24} color={colors.primary} />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={{ marginRight: 8 }}
+                  onPress={() => setModalVisible(!isModaVisible)}
+                >
+                  <Ionicons name="qr-code" size={24} color={colors.primary} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={copyToClipboard}>
+                  <Feather name="copy" size={24} color={colors.primary} />
+                </TouchableOpacity>
+              </View>
             </>
           )}
         </View>
@@ -182,6 +199,57 @@ const Settings = () => {
           />
         </View>
       </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isModaVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!isModaVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View
+            style={[styles.modalView, { backgroundColor: colors.background }]}
+          >
+            <View
+              style={{
+                borderRadius: 8,
+                borderWidth: 1,
+                borderColor: colors.primary,
+                padding: 8,
+                marginTop: SIZES.windowWidth / 24,
+              }}
+            >
+              <QRCode
+                size={SIZES.windowWidth / 2.5}
+                color={colors.primary}
+                backgroundColor={colors.background}
+                value={wallet.address}
+              />
+            </View>
+            <CustomText fontWeight="bold" style={{ color: colors.text, marginTop: 12 }}>
+              {wallet.address.slice(0, 5)}...
+              {wallet.address.slice(-4, wallet.address.length)}
+            </CustomText>
+            <Pressable
+              style={[
+                styles.button,
+                styles.buttonClose,
+                { backgroundColor: colors.primary },
+              ]}
+              onPress={() => setModalVisible(!isModaVisible)}
+            >
+              <CustomText
+                fontWeight="bold"
+                style={[styles.textStyle, { color: colors.background }]}
+              >
+                Close
+              </CustomText>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </Container>
   );
 };
@@ -215,5 +283,45 @@ const styles = StyleSheet.create({
   listItemHeading2: {
     fontSize: SIZES.h5,
     marginBottom: SIZES.windowWidth / 48,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 12,
+  },
+  modalView: {
+    margin: 20,
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    marginTop: 12,
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
   },
 });

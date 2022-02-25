@@ -80,13 +80,6 @@ const Root = () => {
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      {/* {isWalletCreated === true ? (
-        <Tabs />
-      ) : isWalletCreated === false ? (
-        <Stacks />
-      ) : (
-        <Text>This screen will be information screen!</Text>
-      )} */}
       <AppHandler />
     </View>
   );

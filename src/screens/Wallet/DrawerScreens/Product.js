@@ -60,6 +60,7 @@ const Product = ({ navigation, route }) => {
       setTokenMetadata({
         ...data,
         tokenID: res.token.tokenID,
+        tokenURI: res.token.tokenURI,
         histories: res.token.histories,
       });
       return data;
@@ -79,7 +80,7 @@ const Product = ({ navigation, route }) => {
   }, [item]);
 
   if (data) {
-    // console.log(data);
+    console.log(data);
   }
 
   if (called && loading) {
