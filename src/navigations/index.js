@@ -19,6 +19,7 @@ const Root = () => {
   const removeWallet = useStore((state) => state.removeWallet);
   const removePassword = useStore((state) => state.removePassword);
   const isPasswordEntered = useStore((state) => state.isPasswordEntered);
+  const setPasswordEntered = useStore((state) => state.setPasswordEntered);
 
   let [fontsLoaded] = useFonts({
     Costigue: require("../../assets/fonts/Costigue/Costigue.ttf"),
@@ -79,7 +80,7 @@ const Root = () => {
     if (isWalletCreated) {
       if (appHasPassword === true && isPasswordEntered === true) {
         return <Tabs />;
-      } else {
+      } else if (appHasPassword === true && isPasswordEntered === false){
         return <PasswordScreen />;
       }
     } else if (!isWalletCreated) {

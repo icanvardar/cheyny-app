@@ -36,6 +36,9 @@ const createPasswordSlice = (set, get) => ({
     await SecureStore.setItemAsync(PASSWORD_STORE_KEY, newPassword);
     console.log("changePassword: Password changed!");
   },
+  setPasswordEntered: () => {
+    set({ isPasswordEntered: true });
+  },
 });
 
 export default createPasswordSlice;

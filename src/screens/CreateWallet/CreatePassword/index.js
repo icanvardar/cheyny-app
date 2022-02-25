@@ -25,16 +25,18 @@ const CreatePassword = ({ navigation }) => {
 
   const createPassword = useStore((state) => state.createPassword);
   const createWallet = useStore((state) => state.createWallet);
+  const setPasswordEntered = useStore((state) => state.setPasswordEntered);
 
   const _handleNavigation = async (givenPassword) => {
     setActing(true);
+    setPasswordEntered();
     // sets password to SecureStore
     await createPassword(givenPassword);
     // creates wallet for Mnemonics screen
     await createWallet();
     navigation.navigate("Mnemonics");
     setActing(false);
-  }
+  };
 
   useEffect(() => {
     if (
