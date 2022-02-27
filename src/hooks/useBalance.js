@@ -16,7 +16,10 @@ const useBalance = () => {
       let foundBalance = await providerInstance.getBalance(
         walletInstance.address
       );
-      foundBalance = ethers.utils.formatEther(foundBalance);
+      foundBalance =
+        foundBalance === 0 || !foundBalance
+          ? 0
+          : ethers.utils.formatEther(foundBalance);
       setBalance(foundBalance);
     } catch (err) {
       console.log(err);
