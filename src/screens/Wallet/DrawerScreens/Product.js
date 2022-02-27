@@ -29,6 +29,7 @@ const GET_TOKEN = gql`
         id
       }
       histories {
+        txnHash
         action
         from {
           id
@@ -59,6 +60,7 @@ const Product = ({ navigation, route }) => {
       const { data } = await axios.get(`https://ipfs.io/ipfs/${uri}`);
       setTokenMetadata({
         ...data,
+        txnHash: res.token.txnHash,
         tokenID: res.token.tokenID,
         tokenURI: res.token.tokenURI,
         histories: res.token.histories,

@@ -39,6 +39,7 @@ const useSendToken = () => {
         to,
         tokenID.toString(),
         {
+          value: ethers.utils.parseEther("0.5"),
           gasLimit: GAS_LIMIT,
           gasPrice,
           nonce: provider.getTransactionCount(wallet.address, "latest"),

@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Share,
 } from "react-native";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Container from "../../components/Container";
 import AdvancedHeader from "../../components/AdvancedHeader";
 import CustomText from "../../components/CustomText";
@@ -27,6 +27,10 @@ const Certificate = ({ navigation, route }) => {
   const onOpen = () => {
     modalizeRef.current?.open();
   };
+
+  // useEffect(() => {
+  //   console.log(item.histories.filter((h) => h.action === "MINT")[0].txnHash);
+  // }, []);
 
   const onShare = async () => {
     try {
@@ -180,10 +184,9 @@ const Certificate = ({ navigation, route }) => {
               size={SIZES.windowWidth / 2.5}
               color={colors.primary}
               backgroundColor={colors.background}
-              value={`https://ipfs.io/ipfs/${item.tokenURI.replace(
-                "ipfs://",
-                ""
-              )}`}
+              value={`https://testnet.snowtrace.io/tx/${
+                item.histories.filter((h) => h.action === "MINT")[0].txnHash
+              }`}
             />
           </View>
           <CustomText
