@@ -8,6 +8,7 @@ import ProgressBar from "../../../components/ProgressBar";
 import { useTheme } from "@react-navigation/native";
 import Checkbox from "expo-checkbox";
 import InputField from "../../../components/InputField";
+import * as Linking from "expo-linking";
 
 import { SIZES } from "../../../constants";
 
@@ -94,37 +95,47 @@ const CreatePassword = ({ navigation }) => {
             />
           </View>
           <View style={styles.checkboxContainer}>
-            <View style={{ justifyContent: "center" }}>
+            <TouchableOpacity
+              onPress={() => setChecked(!isChecked)}
+              style={{
+                justifyContent: "center",
+                paddingRight: 8,
+                paddingVertical: 8,
+              }}
+            >
               <Checkbox
                 style={styles.checkbox}
                 value={isChecked}
                 onValueChange={setChecked}
                 color={isChecked ? colors.primary : undefined}
               />
-            </View>
-            <TouchableOpacity
-              onPress={() => console.log("Go to learn more!")}
-              style={styles.checkboxTextTouchable}
-            >
+            </TouchableOpacity>
+            <View style={styles.checkboxTextTouchable}>
               <CustomText>
                 <CustomText
                   style={[styles.checkboxText, { color: colors.text }]}
                 >
                   I understand that Cheyny can not recover this password for me.{" "}
                 </CustomText>
-                <CustomText
-                  style={[
-                    {
-                      color: colors.primary,
-                      textDecorationColor: colors.primary,
-                    },
-                    styles.learnMore,
-                  ]}
+                <TouchableOpacity
+                  onPress={() =>
+                    Linking.openURL("https://www.cheyny.com/technology")
+                  }
                 >
-                  Learn more.
-                </CustomText>
+                  <CustomText
+                    style={[
+                      {
+                        color: colors.primary,
+                        textDecorationColor: colors.primary,
+                      },
+                      styles.learnMore,
+                    ]}
+                  >
+                    Learn more.
+                  </CustomText>
+                </TouchableOpacity>
               </CustomText>
-            </TouchableOpacity>
+            </View>
           </View>
         </View>
         <View style={styles.bottomContainer}>
@@ -157,10 +168,13 @@ const styles = StyleSheet.create({
     marginTop: SIZES.windowWidth / 18,
     marginBottom: 12,
   },
-  checkboxTextTouchable: { marginLeft: 12 },
+  checkboxTextTouchable: { marginLeft: 6 },
   checkboxText: { opacity: 0.5, marginBottom: 12 },
   learnMore: {
     opacity: 1,
     textDecorationLine: "underline",
+  },
+  checkbox: {
+    padding: 10,
   },
 });

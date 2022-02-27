@@ -5,6 +5,7 @@ import Brand from "../../../components/Brand";
 import Button from "../../../components/Button";
 import CustomText from "../../../components/CustomText";
 import ProgressBar from "../../../components/ProgressBar";
+import Tooltip from "react-native-walkthrough-tooltip";
 
 import { SIZES } from "../../../constants";
 import { useTheme } from "@react-navigation/native";
@@ -15,12 +16,24 @@ import useStore from "../../../store/useStore";
 
 const Mnemonics = ({ navigation, route }) => {
   const { colors } = useTheme();
+  const [toolTipVisible, setToolTipVisible] = useState(false);
 
   const wallet = useStore((state) => state.wallet);
 
   const copyToClipboard = () => {
     Clipboard.setString(wallet.mnemonic.phrase);
+    setToolTipVisible(true);
   };
+
+  useEffect(() => {
+    if (toolTipVisible) {
+      const toolTipVisibleTimeout = setTimeout(() => {
+        setToolTipVisible(false);
+      }, 1000);
+
+      return () => clearTimeout(toolTipVisibleTimeout);
+    }
+  }, [toolTipVisible]);
 
   return (
     <Container style={styles.container}>
@@ -58,11 +71,26 @@ const Mnemonics = ({ navigation, route }) => {
           </View>
           {/* Copy button field */}
           <View style={styles.copyButtonContainer}>
-            <TouchableOpacity onPress={copyToClipboard}>
-              <CustomText fontWeight="bold" style={{ color: colors.primary }}>
-                Copy
-              </CustomText>
-            </TouchableOpacity>
+            <Tooltip
+              isVisible={toolTipVisible}
+              backgroundColor={"transparent"}
+              content={
+                <View style={{ alignItems: "center" }}>
+                  <CustomText style={{ color: colors.text }}>
+                    Copied!
+                  </CustomText>
+                </View>
+              }
+              placement="bottom"
+              contentStyle={{ backgroundColor: colors.background }}
+              onClose={() => setToolTipVisible(false)}
+            >
+              <TouchableOpacity onPress={copyToClipboard}>
+                <CustomText fontWeight="bold" style={{ color: colors.primary }}>
+                  Copy
+                </CustomText>
+              </TouchableOpacity>
+            </Tooltip>
           </View>
           <View
             style={[

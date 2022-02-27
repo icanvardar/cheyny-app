@@ -61,7 +61,7 @@ const Button = ({
           borderWidth: outlined ? 1 : 0,
           borderColor: colors.primary,
           paddingVertical: handleSize(),
-          opacity: disabled ? 0.25 : 1,
+          opacity: disabled ? 0.50 : 1,
         },
         styles.buttonContainer,
         style,
@@ -74,7 +74,7 @@ const Button = ({
           fontWeight="bold"
           style={[
             {
-              opacity: disabled ? 0.25 : 1,
+              opacity: disabled ? 0.75 : 1,
               color: outlined ? colors.primary : colors.background,
               fontSize: handleFontSize(),
             },

@@ -11,6 +11,8 @@ import {
 import React, { useState, useContext, useEffect } from "react";
 import QRCode from "react-native-qrcode-svg";
 
+import { AntDesign } from "@expo/vector-icons";
+
 import Container from "../../components/Container";
 import Heading from "../../components/Heading";
 import CustomText from "../../components/CustomText";
@@ -24,6 +26,10 @@ import { Feather } from "@expo/vector-icons";
 
 import Brand from "../../components/Brand";
 import * as Clipboard from "expo-clipboard";
+
+import Tooltip from "react-native-walkthrough-tooltip";
+
+import * as Linking from "expo-linking";
 
 import useBalance from "../../hooks/useBalance";
 
@@ -48,15 +54,33 @@ const Settings = ({ navigation }) => {
   const privateKey = useStore((state) => state.privateKey);
   const { colors } = useTheme();
 
+  const [selectedNetwork, setSelectedNetwork] = useState("testnet");
+
+  const [toolTipVisible, setToolTipVisible] = useState(false);
+
   const removeWallet = useStore((store) => store.removeWallet);
   const removePassword = useStore((store) => store.removePassword);
   const checkWallet = useStore((store) => store.checkWallet);
 
+  const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
+  const [isNetworkModalVisible, setIsNetworkModalVisible] = useState(false);
+
   const [balance, getBalance] = useBalance();
   const [refreshing, setRefreshing] = useState(false);
 
+  useEffect(() => {
+    if (toolTipVisible) {
+      const toolTipVisibleTimeout = setTimeout(() => {
+        setToolTipVisible(false);
+      }, 1000);
+
+      return () => clearTimeout(toolTipVisibleTimeout);
+    }
+  }, [toolTipVisible]);
+
   const copyToClipboard = () => {
     if (wallet && wallet.address) {
+      setToolTipVisible(true);
       Clipboard.setString(wallet.address);
     }
   };
@@ -83,7 +107,13 @@ const Settings = ({ navigation }) => {
         if (item.title === "Change Password") {
           navigation.navigate(item.title);
         } else if (item.title === "Logout") {
-          await handleLogout();
+          setIsLogoutModalVisible(true);
+        } else if (item.title === "Cheyny Website") {
+          Linking.openURL("https://www.cheyny.com/");
+        } else if (item.title === "Cheyny Introduction") {
+          Linking.openURL("https://www.cheyny.com/");
+        } else if (item.title === "Network") {
+          setIsNetworkModalVisible(true);
         }
       }}
       style={[
@@ -176,9 +206,24 @@ const Settings = ({ navigation }) => {
                 >
                   <Ionicons name="qr-code" size={24} color={colors.primary} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={copyToClipboard}>
-                  <Feather name="copy" size={24} color={colors.primary} />
-                </TouchableOpacity>
+                <Tooltip
+                  isVisible={toolTipVisible}
+                  backgroundColor={"transparent"}
+                  content={
+                    <View style={{ alignItems: "center" }}>
+                      <CustomText style={{ color: colors.text }}>
+                        Copied!
+                      </CustomText>
+                    </View>
+                  }
+                  placement="bottom"
+                  contentStyle={{ backgroundColor: colors.background }}
+                  onClose={() => setToolTipVisible(false)}
+                >
+                  <TouchableOpacity onPress={copyToClipboard}>
+                    <Feather name="copy" size={24} color={colors.primary} />
+                  </TouchableOpacity>
+                </Tooltip>
               </View>
             </>
           )}
@@ -278,6 +323,182 @@ const Settings = ({ navigation }) => {
                 Close
               </CustomText>
             </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isNetworkModalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setIsNetworkModalVisible(!isNetworkModalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View
+            style={[styles.modalView, { backgroundColor: colors.background }]}
+          >
+            <CustomText
+              fontWeight="bold"
+              style={[
+                styles.textStyle,
+                { color: colors.text, marginVertical: 12, fontSize: SIZES.p },
+              ]}
+            >
+              Network
+            </CustomText>
+            <View>
+              <TouchableOpacity
+                onPress={() => setSelectedNetwork("mainnet")}
+                style={{
+                  padding: 12,
+                  width: SIZES.windowWidth / 2,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <CustomText
+                  fontWeight="bold"
+                  style={{ color: colors.text, opacity: 0.75 }}
+                >
+                  Mainnet
+                </CustomText>
+                {selectedNetwork === "mainnet" && (
+                  <AntDesign
+                    name="checksquare"
+                    size={18}
+                    color={colors.primary}
+                  />
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setSelectedNetwork("testnet")}
+                style={{
+                  padding: 12,
+                  width: SIZES.windowWidth / 2,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <CustomText
+                  fontWeight="bold"
+                  style={{ color: colors.text, opacity: 0.75 }}
+                >
+                  Fuji Testnet
+                </CustomText>
+                {selectedNetwork === "testnet" && (
+                  <AntDesign
+                    name="checksquare"
+                    size={18}
+                    color={colors.primary}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+              }}
+            >
+              <Pressable
+                style={[
+                  styles.button,
+                  styles.buttonClose,
+                  { backgroundColor: colors.text, marginHorizontal: 4 },
+                ]}
+                onPress={() => setIsNetworkModalVisible(!isNetworkModalVisible)}
+              >
+                <CustomText
+                  fontWeight="bold"
+                  style={[styles.textStyle, { color: colors.background }]}
+                >
+                  Cancel
+                </CustomText>
+              </Pressable>
+              <Pressable
+                style={[
+                  styles.button,
+                  styles.buttonClose,
+                  { backgroundColor: colors.primary, marginHorizontal: 4 },
+                ]}
+                onPress={() => setIsNetworkModalVisible(!isNetworkModalVisible)}
+              >
+                <CustomText
+                  fontWeight="bold"
+                  style={[styles.textStyle, { color: colors.background }]}
+                >
+                  Yes
+                </CustomText>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isLogoutModalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setIsLogoutModalVisible(!isLogoutModalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View
+            style={[styles.modalView, { backgroundColor: colors.background }]}
+          >
+            <CustomText
+              fontWeight="bold"
+              style={[
+                styles.textStyle,
+                { color: colors.text, marginVertical: 12 },
+              ]}
+            >
+              Are you sure you want to logout?
+            </CustomText>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+              }}
+            >
+              <Pressable
+                style={[
+                  styles.button,
+                  styles.buttonClose,
+                  { backgroundColor: colors.text, marginHorizontal: 4 },
+                ]}
+                onPress={() => setIsLogoutModalVisible(!isLogoutModalVisible)}
+              >
+                <CustomText
+                  fontWeight="bold"
+                  style={[styles.textStyle, { color: colors.background }]}
+                >
+                  Cancel
+                </CustomText>
+              </Pressable>
+              <Pressable
+                style={[
+                  styles.button,
+                  styles.buttonClose,
+                  { backgroundColor: colors.primary, marginHorizontal: 4 },
+                ]}
+                onPress={handleLogout}
+              >
+                <CustomText
+                  fontWeight="bold"
+                  style={[styles.textStyle, { color: colors.background }]}
+                >
+                  Yes
+                </CustomText>
+              </Pressable>
+            </View>
           </View>
         </View>
       </Modal>

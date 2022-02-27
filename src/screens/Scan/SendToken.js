@@ -5,7 +5,6 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Button,
   ActivityIndicator,
 } from "react-native";
 import React, { useState, useEffect, useContext, useRef } from "react";
@@ -18,6 +17,7 @@ import { useTheme } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import { ethers } from "ethers";
 import axios from "axios";
+import Button from "../../components/Button";
 import { FontAwesome } from "@expo/vector-icons";
 import useSendToken from "../../hooks/useSendToken";
 import useBalance from "../../hooks/useBalance";
@@ -243,6 +243,7 @@ const SendToken = ({ navigation }) => {
           You need to get token before sending it!
         </CustomText>
       ) : null}
+      <Button onPress={() => navigation.goBack()} title="Cancel" outlined />
       <Modalize
         handleStyle={{ backgroundColor: colors.primary, opacity: 0.8 }}
         modalHeight={SIZES.windowWidth / 1}
@@ -278,9 +279,11 @@ const SendToken = ({ navigation }) => {
             {selectedMetadata && (
               <Image
                 style={{
-                  height: SIZES.windowWidth / 2,
-                  width: SIZES.windowWidth / 2,
+                  height: SIZES.windowWidth / 2.5,
+                  width: SIZES.windowWidth / 2.5,
+                  marginVertical: 20
                 }}
+                resizeMode='contain'
                 source={{
                   uri: `https://ipfs.io/ipfs/${selectedMetadata.image}`,
                 }}
@@ -333,7 +336,10 @@ const SendToken = ({ navigation }) => {
               ) : isTokenSending ? (
                 <ActivityIndicator size={"small"} color={colors.primary} />
               ) : (
-                <FontAwesome name="send" size={24} color={colors.primary} />
+                // <FontAwesome name="send" size={24} color={colors.primary} />
+                <CustomText style={{ color: colors.primary, fontSize: SIZES.p / 1.2 }} fontWeight="bold">
+                  {"Confirm".toUpperCase()}
+                </CustomText>
               )}
             </TouchableOpacity>
           </View>

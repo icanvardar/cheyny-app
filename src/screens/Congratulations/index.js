@@ -66,7 +66,7 @@ const ImportFromSeed = ({ route }) => {
             You’ve successfully {importedOrCreated} your wallet. Remember to
             keep your Secret Recovery Phrase safe, it’s your responsibility!
           </CustomText>
-          <CustomText
+          {/* <CustomText
             style={{
               color: colors.text,
               textAlign: "center",
@@ -76,7 +76,7 @@ const ImportFromSeed = ({ route }) => {
           >
             You can find your Secret Recovery Phrase in Settings {">"} Security{" "}
             {"&"} Privacy.
-          </CustomText>
+          </CustomText> */}
         </View>
         <View style={styles.bottomContainer}>
           <Button
