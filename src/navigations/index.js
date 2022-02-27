@@ -80,14 +80,12 @@ const Root = () => {
     if (isWalletCreated) {
       if (appHasPassword === true && isPasswordEntered === true) {
         return <Tabs />;
-      } else if (appHasPassword === true && isPasswordEntered === false){
+      } else if (appHasPassword === true && isPasswordEntered === false) {
         return <PasswordScreen />;
       }
     } else if (!isWalletCreated) {
       return <Stacks />;
     }
-
-    return <Text>This screen will be information screen!</Text>;
   };
 
   return (
