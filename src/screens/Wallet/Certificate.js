@@ -28,14 +28,16 @@ const Certificate = ({ navigation, route }) => {
     modalizeRef.current?.open();
   };
 
-  // useEffect(() => {
-  //   console.log(item.histories.filter((h) => h.action === "MINT")[0].txnHash);
-  // }, []);
+  useEffect(() => {
+    console.log(item.histories.filter((h) => h.action === "MINT")[0].txnHash);
+  }, []);
 
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: `https://ipfs.io/ipfs/${item.tokenURI.replace("ipfs://", "")}`,
+        message: `https://testnet.snowtrace.io/tx/${
+          item.histories.filter((h) => h.action === "MINT")[0].txnHash
+        }`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
