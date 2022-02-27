@@ -33,6 +33,17 @@ const Scan = ({ navigation }) => {
   }, [isAddressValid]);
 
   useEffect(() => {
+    if (isModalVisible) {
+      const isModalVisibleTimeout = setTimeout(() => {
+        setModalVisible(false);
+        setAddressValid();
+      }, 3000);
+
+      return () => clearTimeout(isModalVisibleTimeout);
+    }
+  }, [isModalVisible]);
+
+  useEffect(() => {
     console.log(isModalVisible);
   }, [isModalVisible]);
 
@@ -100,7 +111,7 @@ const Scan = ({ navigation }) => {
         </View>
       </View>
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={isModalVisible}
         onRequestClose={() => {
@@ -110,11 +121,10 @@ const Scan = ({ navigation }) => {
       >
         <View style={styles.centeredView}>
           <View
-            style={[styles.modalView, { backgroundColor: colors.background }]}
+            style={[styles.modalView, { backgroundColor: colors.primary }]}
           >
-            <CustomText style={{ color: colors.text, textAlign: "center" }}>
-              This address is not valid. You can only scan Ethereum based wallet
-              addresses. Otherwise, QR scanner will not operate.
+            <CustomText fontWeight="bold" style={{ color: colors.background, textAlign: "center" }}>
+              This address is not valid.
             </CustomText>
           </View>
         </View>
@@ -151,12 +161,13 @@ const styles = StyleSheet.create({
   infoTextBody: { textAlign: "center", marginTop: 5, opacity: 0.75 },
   centeredView: {
     flex: 1,
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
     marginTop: 12,
   },
   modalView: {
     width: SIZES.windowWidth / 1.25,
+    marginTop: SIZES.windowWidth / 4,
     borderRadius: 8,
     paddingHorizontal: 35,
     paddingVertical: 18,
