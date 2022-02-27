@@ -27,16 +27,25 @@ const CreatePassword = ({ navigation }) => {
   const createPassword = useStore((state) => state.createPassword);
   const createWallet = useStore((state) => state.createWallet);
   const setPasswordEntered = useStore((state) => state.setPasswordEntered);
+  const [hasError, setHasError] = useState(false);
 
   const _handleNavigation = async (givenPassword) => {
-    setActing(true);
-    setPasswordEntered();
-    // sets password to SecureStore
-    await createPassword(givenPassword);
-    // creates wallet for Mnemonics screen
-    await createWallet();
-    navigation.navigate("Mnemonics");
-    setActing(false);
+    try {
+      setActing(true);
+      // setPasswordEntered();
+      // sets password to SecureStore
+      await createPassword(givenPassword);
+      // creates wallet for Mnemonics screen
+      await createWallet();
+      navigation.navigate("Mnemonics");
+      setActing(false);
+      setHasError(false);
+    } catch (err) {
+      setHasError(true);
+      console.log(err);
+    } finally {
+      setActing(false);
+    }
   };
 
   useEffect(() => {
@@ -94,7 +103,7 @@ const CreatePassword = ({ navigation }) => {
               onChangeText={(text) => setRepeatPassword(text)}
             />
           </View>
-          <View style={styles.checkboxContainer}>
+          <View style={[styles.checkboxContainer]}>
             <TouchableOpacity
               onPress={() => setChecked(!isChecked)}
               style={{
@@ -110,32 +119,33 @@ const CreatePassword = ({ navigation }) => {
                 color={isChecked ? colors.primary : undefined}
               />
             </TouchableOpacity>
-            <View style={styles.checkboxTextTouchable}>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() =>
+                Linking.openURL("https://www.cheyny.com/technology")
+              }
+              style={styles.checkboxTextTouchable}
+            >
               <CustomText>
                 <CustomText
                   style={[styles.checkboxText, { color: colors.text }]}
                 >
                   I understand that Cheyny can not recover this password for me.{" "}
                 </CustomText>
-                <TouchableOpacity
-                  onPress={() =>
-                    Linking.openURL("https://www.cheyny.com/technology")
-                  }
+
+                <CustomText
+                  style={[
+                    {
+                      color: colors.primary,
+                      textDecorationColor: colors.primary,
+                    },
+                    styles.learnMore,
+                  ]}
                 >
-                  <CustomText
-                    style={[
-                      {
-                        color: colors.primary,
-                        textDecorationColor: colors.primary,
-                      },
-                      styles.learnMore,
-                    ]}
-                  >
-                    Learn more.
-                  </CustomText>
-                </TouchableOpacity>
+                  Learn more.
+                </CustomText>
               </CustomText>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.bottomContainer}>

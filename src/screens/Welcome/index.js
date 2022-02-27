@@ -8,6 +8,8 @@ import Brand from "../../components/Brand";
 import Button from "../../components/Button";
 import CustomText from "../../components/CustomText";
 
+import * as Linking from "expo-linking";
+
 const Welcome = ({ navigation }) => {
   const { colors } = useTheme();
 
@@ -47,7 +49,9 @@ const Welcome = ({ navigation }) => {
         <CustomText style={[{ color: colors.text }, styles.termsInfo]}>
           By proceeding, you agree these
         </CustomText>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => Linking.openURL("https://www.cheyny.com/")}
+        >
           <CustomText style={[{ color: colors.text }, styles.terms]}>
             Terms and Conditions.
           </CustomText>

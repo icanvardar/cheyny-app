@@ -3,22 +3,44 @@ import WalletHandler from "../handlers/WalletHandler";
 
 const WALLET_STORE_KEY = "wallet";
 
+function checkDuplicate(arr) {
+  let result = false;
+
+  const s = new Set(arr);
+
+  if (arr.length !== s.size) {
+    result = true;
+  }
+
+  return result;
+}
+
 const createWalletSlice = (set, get) => ({
   wallet: null,
   privateKey: null,
   isWalletCreated: null,
   walletHandler: new WalletHandler(),
   checkWallet: async () => {
-    if (await SecureStore.getItemAsync(WALLET_STORE_KEY)) {
+    const foundWallet = await SecureStore.getItemAsync(WALLET_STORE_KEY);
+
+    if (foundWallet) {
       set({ isWalletCreated: true });
     } else {
       set({ isWalletCreated: false });
     }
-    console.log("checkWallet: Wallet checked!");
+
+    console.log("checkWallet: Wallet checked!" + foundWallet);
   },
   createWallet: async () => {
     const walletHandler = get().walletHandler;
-    const walletInstance = walletHandler.createWallet();
+    let walletInstance = walletHandler.createWallet();
+    // console.log(checkDuplicate(walletInstance.mnemonic.phrase.split(" ")));
+    // while (
+    //   checkDuplicate(walletInstance.mnemonic.phrase.split(" ")) === false
+    // ) {
+    //   console.log(checkDuplicate(walletInstance.mnemonic.phrase.split(" ")));
+    //   walletInstance = walletHandler.createWallet();
+    // }
     await SecureStore.setItemAsync(
       WALLET_STORE_KEY,
       JSON.stringify(walletInstance)

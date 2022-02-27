@@ -4,7 +4,11 @@ import { SIZES } from "../../constants";
 import { useNavigation, useTheme } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
-const Brand = ({ hasBackButton = false, size = "default" }) => {
+const Brand = ({
+  hasBackButton = false,
+  size = "default",
+  optionalEvent = null,
+}) => {
   const { colors } = useTheme();
   const navigation = useNavigation();
 
@@ -13,7 +17,9 @@ const Brand = ({ hasBackButton = false, size = "default" }) => {
       {hasBackButton && (
         <TouchableOpacity
           onPress={() => {
-            navigation.goBack();
+            {
+              optionalEvent ? optionalEvent() : navigation.goBack();
+            }
           }}
           style={{
             position: "absolute",

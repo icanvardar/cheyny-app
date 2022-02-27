@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { useState, useEffect, useCallback } from "react";
 import useStore from "../store/useStore";
 import { useFonts } from "expo-font";
@@ -8,6 +8,7 @@ import React from "react";
 import PasswordScreen from "../screens/Password";
 
 import * as SplashScreen from "expo-splash-screen";
+import { THEME } from "../constants";
 
 const Root = () => {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -71,26 +72,35 @@ const Root = () => {
     return null;
   }
 
-  const AppHandler = () => {
-    useEffect(() => {
-      console.log(appHasPassword);
-      console.log(isPasswordEntered);
-    }, [isPasswordEntered]);
-
-    if (isWalletCreated) {
-      if (appHasPassword === true && isPasswordEntered === true) {
+  const AppHandler = ({ walletCreated, passwordEntered }) => {
+    if (walletCreated === true) {
+      console.log("Tabs and password");
+      if (passwordEntered === true) {
         return <Tabs />;
-      } else if (appHasPassword === true && isPasswordEntered === false){
+      } else if (passwordEntered === false) {
         return <PasswordScreen />;
       }
-    } else if (!isWalletCreated) {
+    }
+
+    if (walletCreated === false) {
+      console.log("stacks");
+
       return <Stacks />;
     }
+
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Loading...</Text>
+      </View>
+    );
   };
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <AppHandler />
+      <AppHandler
+        walletCreated={isWalletCreated}
+        passwordEntered={isPasswordEntered}
+      />
     </View>
   );
 };

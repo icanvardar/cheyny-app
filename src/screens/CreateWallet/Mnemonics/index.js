@@ -1,4 +1,11 @@
-import { View, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  Platform,
+  ToastAndroid,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import Container from "../../../components/Container";
 import Brand from "../../../components/Brand";
@@ -6,23 +13,35 @@ import Button from "../../../components/Button";
 import CustomText from "../../../components/CustomText";
 import ProgressBar from "../../../components/ProgressBar";
 import Tooltip from "react-native-walkthrough-tooltip";
+import { useNavigation, useTheme } from "@react-navigation/native";
 
 import { SIZES } from "../../../constants";
-import { useTheme } from "@react-navigation/native";
 
 import * as Clipboard from "expo-clipboard";
 
 import useStore from "../../../store/useStore";
 
-const Mnemonics = ({ navigation, route }) => {
+const Mnemonics = ({ route }) => {
+  const navigation = useNavigation();
   const { colors } = useTheme();
   const [toolTipVisible, setToolTipVisible] = useState(false);
 
+  const removePassword = useStore((state) => state.removePassword);
+  const removeWallet = useStore((state) => state.removeWallet);
+
   const wallet = useStore((state) => state.wallet);
+
+  const showToast = () => {
+    ToastAndroid.show("Copied!", ToastAndroid.SHORT);
+  };
 
   const copyToClipboard = () => {
     Clipboard.setString(wallet.mnemonic.phrase);
-    setToolTipVisible(true);
+    if (Platform.OS === "ios") {
+      setToolTipVisible(true);
+    } else if (Platform.OS === "android") {
+      showToast();
+    }
   };
 
   useEffect(() => {
@@ -35,11 +54,21 @@ const Mnemonics = ({ navigation, route }) => {
     }
   }, [toolTipVisible]);
 
+  const _handleBackEvent = async () => {
+    try {
+      await removePassword();
+      await removeWallet();
+      navigation.goBack();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Container style={styles.container}>
       {/* Upper components */}
       <View>
-        <Brand hasBackButton={true} />
+        <Brand optionalEvent={_handleBackEvent} hasBackButton={true} />
         <ProgressBar status={2} />
       </View>
       {/* Middle components */}
@@ -62,7 +91,10 @@ const Mnemonics = ({ navigation, route }) => {
           </View>
           <View style={styles.mnemonicsContainer}>
             {wallet.mnemonic.phrase.split(" ").map((mnemonic, key) => (
-              <View key={mnemonic} style={styles.mnemonicsInnerContainer}>
+              <View
+                key={mnemonic + Math.floor(Math.random() * 100).toString()}
+                style={styles.mnemonicsInnerContainer}
+              >
                 <CustomText style={{ color: colors.text }}>
                   {key + 1}. {mnemonic}
                 </CustomText>

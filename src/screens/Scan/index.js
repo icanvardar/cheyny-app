@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Text, View, StyleSheet, Modal, Image } from "react-native";
-import { BarCodeScanner } from "expo-barcode-scanner";
+// import { BarCodeScanner } from "expo-barcode-scanner";
 import { SIZES } from "../../constants";
 import CustomText from "../../components/CustomText";
 import { useTheme, useIsFocused } from "@react-navigation/native";
 import { ethers } from "ethers";
 import { TransferTokenContext } from "../../context/TransferTokenProvider";
+import { Camera } from "expo-camera";
 
 const Scan = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -16,15 +17,26 @@ const Scan = ({ navigation }) => {
 
   const { colors } = useTheme();
 
+  // useEffect(() => {
+  //   (async () => {
+  //     const { status } = await BarCodeScanner.requestPermissionsAsync();
+  //     setHasPermission(status === "granted");
+  //   })();
+  // }, []);
+
   useEffect(() => {
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === "granted");
     })();
   }, []);
 
   useEffect(() => {
-    console.log(isAddressValid);
+    console.log("isFocused: " + isFocused);
+  }, [isFocused]);
+
+  useEffect(() => {
+    console.log("isAddressValid: " + isAddressValid);
     if (isAddressValid === false) {
       setModalVisible(true);
     } else {
@@ -59,7 +71,7 @@ const Scan = ({ navigation }) => {
   }
 
   const handleBarCodeScanned = ({ type, data }) => {
-    // console.log(data);
+    console.log(data);
     if (isAddress(data)) {
       setReceiverAddress(data);
       navigation.navigate("Send Token");
@@ -73,17 +85,22 @@ const Scan = ({ navigation }) => {
     return <Text>No access to camera</Text>;
   }
 
+  if (!isFocused) {
+    return <CustomText>Hello</CustomText>;
+  }
+
   return (
     <>
       <View style={styles.container}>
         {isFocused && (
-          <BarCodeScanner
+          <Camera
             onBarCodeScanned={(data) => handleBarCodeScanned(data)}
             style={StyleSheet.absoluteFillObject}
+            ratio="16:9"
           />
         )}
         <View style={styles.frameHolder}>
-          <View style={{ paddingBottom: SIZES.windowWidth / 2, opacity: 1 }}>
+          <View style={{ paddingBottom: SIZES.windowWidth / 3, opacity: 1 }}>
             <Image
               style={styles.frame}
               source={require("../../../assets/images/qr-frame.png")}
@@ -110,7 +127,7 @@ const Scan = ({ navigation }) => {
           </CustomText>
         </View>
       </View>
-      <Modal
+      {/* <Modal
         animationType="fade"
         transparent={true}
         visible={isModalVisible}
@@ -118,17 +135,30 @@ const Scan = ({ navigation }) => {
           Alert.alert("Modal has been closed.");
           setModalVisible(!isModalVisible);
         }}
-      >
-        <View style={styles.centeredView}>
-          <View
-            style={[styles.modalView, { backgroundColor: colors.primary }]}
-          >
-            <CustomText fontWeight="bold" style={{ color: colors.background, textAlign: "center" }}>
+      > */}
+      {isModalVisible && (
+        <View
+          style={[
+            styles.centeredView,
+            {
+              position: "absolute",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+            },
+          ]}
+        >
+          <View style={[styles.modalView, { backgroundColor: colors.primary }]}>
+            <CustomText
+              fontWeight="bold"
+              style={{ color: colors.background, textAlign: "center" }}
+            >
               This address is not valid.
             </CustomText>
           </View>
         </View>
-      </Modal>
+      )}
+      {/* </Modal> */}
     </>
   );
 };

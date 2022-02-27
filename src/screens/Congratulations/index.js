@@ -21,10 +21,8 @@ const ImportFromSeed = ({ route }) => {
 
   const _handleNavigation = async () => {
     setActing(true);
-    const checkWalletTimeout = setTimeout(async () => {
-      await checkWallet();
-      setActing(false);
-    }, 3000);
+    await checkWallet();
+    setActing(false);
 
     return () => clearTimeout(checkWalletTimeout);
   };

@@ -228,6 +228,7 @@ const Home = ({ navigation }) => {
           <Heading title={"My Wallet"} />
         </View>
         <ScrollView
+          // bounces={false}
           style={{ flexGrow: 1 }}
           refreshControl={
             <RefreshControl
@@ -251,6 +252,7 @@ const Home = ({ navigation }) => {
           {products && products.length > 0 && (
             <>
               <FlatList
+                bounces={false}
                 contentContainerStyle={{
                   width: products && products.length === 1 ? "100%" : "auto",
                   justifyContent:

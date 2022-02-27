@@ -17,6 +17,10 @@ const ChangePassword = ({ navigation }) => {
   const changePassword = useStore((state) => state.changePassword);
   const checkPassword = useStore((state) => state.checkPassword);
 
+  const [currentPasswordError, setCurrentPasswordError] = useState("");
+  const [newPasswordError, setNewPasswordError] = useState("");
+  const [repeatPasswordError, setRepeatPasswordError] = useState("");
+
   useEffect(async () => {}, []);
 
   const _changePassword = async () => {

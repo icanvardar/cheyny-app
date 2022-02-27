@@ -236,14 +236,18 @@ const SendToken = ({ navigation }) => {
           />
         </>
       ) : products && products.length === 0 ? (
-        <CustomText
-          fontWeight="bold"
-          style={{ color: colors.text, marginTop: 24 }}
-        >
-          You need to get token before sending it!
-        </CustomText>
+        <View style={{ flex: 1 }}>
+          <CustomText
+            fontWeight="bold"
+            style={{ color: colors.text, marginTop: 24 }}
+          >
+            You need to get token before sending it!
+          </CustomText>
+        </View>
       ) : null}
-      <Button onPress={() => navigation.goBack()} title="Cancel" outlined />
+      <View>
+        <Button onPress={() => navigation.goBack()} title="Cancel" outlined />
+      </View>
       <Modalize
         handleStyle={{ backgroundColor: colors.primary, opacity: 0.8 }}
         modalHeight={SIZES.windowWidth / 1}
@@ -281,9 +285,9 @@ const SendToken = ({ navigation }) => {
                 style={{
                   height: SIZES.windowWidth / 2.5,
                   width: SIZES.windowWidth / 2.5,
-                  marginVertical: 20
+                  marginVertical: 20,
                 }}
-                resizeMode='contain'
+                resizeMode="contain"
                 source={{
                   uri: `https://ipfs.io/ipfs/${selectedMetadata.image}`,
                 }}
@@ -331,13 +335,17 @@ const SendToken = ({ navigation }) => {
                     opacity: 0.75,
                   }}
                 >
-                  In order to send token you have to have at least 0.5 AVAX.
+                  In order to send your product you should have at least 0.5
+                  AVAX in your wallet.
                 </CustomText>
               ) : isTokenSending ? (
                 <ActivityIndicator size={"small"} color={colors.primary} />
               ) : (
                 // <FontAwesome name="send" size={24} color={colors.primary} />
-                <CustomText style={{ color: colors.primary, fontSize: SIZES.p / 1.2 }} fontWeight="bold">
+                <CustomText
+                  style={{ color: colors.primary, fontSize: SIZES.p / 1.2 }}
+                  fontWeight="bold"
+                >
                   {"Confirm".toUpperCase()}
                 </CustomText>
               )}

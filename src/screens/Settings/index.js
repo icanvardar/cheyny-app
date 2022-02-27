@@ -7,6 +7,8 @@ import {
   Modal,
   Pressable,
   RefreshControl,
+  Platform,
+  ToastAndroid,
 } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import QRCode from "react-native-qrcode-svg";
@@ -78,10 +80,18 @@ const Settings = ({ navigation }) => {
     }
   }, [toolTipVisible]);
 
+  const showToast = () => {
+    ToastAndroid.show("Copied!", ToastAndroid.SHORT);
+  };
+
   const copyToClipboard = () => {
     if (wallet && wallet.address) {
-      setToolTipVisible(true);
       Clipboard.setString(wallet.address);
+      if (Platform.OS === "ios") {
+        setToolTipVisible(true);
+      } else if (Platform.OS === "android") {
+        showToast();
+      }
     }
   };
 
@@ -108,9 +118,14 @@ const Settings = ({ navigation }) => {
           navigation.navigate(item.title);
         } else if (item.title === "Logout") {
           setIsLogoutModalVisible(true);
-        } else if (item.title === "Cheyny Website") {
-          Linking.openURL("https://www.cheyny.com/");
-        } else if (item.title === "Cheyny Introduction") {
+        } else if (
+          item.title === "Cheyny Website" ||
+          item.title === "Cheyny Introduction" ||
+          item.title === "Follow Us" ||
+          item.title === "Contact Us" ||
+          item.title === "Privacy Policies" ||
+          item.title === "User Agreements"
+        ) {
           Linking.openURL("https://www.cheyny.com/");
         } else if (item.title === "Network") {
           setIsNetworkModalVisible(true);
