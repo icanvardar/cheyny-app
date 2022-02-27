@@ -41,7 +41,7 @@ const VerifyMnemonics = ({ navigation }) => {
     setActing(true);
     const navigateTimeout = setTimeout(async () => {
       navigation.navigate("Congratulations", {
-        importedOrCreated: "created"
+        importedOrCreated: "created",
       });
       setActing(false);
     }, 3000);
@@ -95,7 +95,10 @@ const VerifyMnemonics = ({ navigation }) => {
         </View>
         <View style={styles.middleContainer}>
           <View
-            style={[styles.mnemonicsContainer, { borderColor: colors.primary }]}
+            style={[
+              styles.mnemonicsContainer2,
+              { borderColor: colors.primary },
+            ]}
           >
             {givenMnemonics.map((mnemonic, key) => (
               <TouchableOpacity
@@ -158,7 +161,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     borderRadius: 8,
     height: SIZES.windowWidth * 0.6,
+    marginBottom: 12,
+  },
+  mnemonicsContainer2: {
+    flexDirection: "row",
     flexWrap: "wrap",
+    // justifyContent: "space-around",
+    alignItems: "center",
+    marginTop: SIZES.windowWidth / 12,
+    marginHorizontal: 12,
+    borderWidth: 1,
+    paddingTop: 8,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+    minHeight: SIZES.windowWidth / 6.5,
     marginBottom: 12,
   },
   givenMnemonicsContainer: {
@@ -178,6 +194,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 14,
     marginBottom: 8,
+    marginHorizontal: 4,
   },
   middleContainer: { flex: 1 },
   scrollViewContainer: { flexGrow: 1, justifyContent: "space-between" },

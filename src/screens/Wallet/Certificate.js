@@ -135,7 +135,7 @@ const Certificate = ({ navigation, route }) => {
           </View>
         </View>
         <Button
-          style={{ marginTop: SIZES.windowWidth / 6 }}
+          style={{ marginTop: SIZES.windowWidth / 6, marginBottom: 64 }}
           onPress={onOpen}
           title={"Generate Proof Of Ownership"}
         />
@@ -195,6 +195,7 @@ const Certificate = ({ navigation, route }) => {
               color: colors.text,
               fontSize: 14,
               marginTop: 12,
+              marginBottom: 8,
             }}
           >
             This QR code can be scanned was your proof of ownership
@@ -206,7 +207,8 @@ const Certificate = ({ navigation, route }) => {
               alignItems: "center",
               paddingVertical: 8,
               borderRadius: 8,
-              marginTop: 24,
+              // marginTop: 24,
+              // marginBottom: 24,
             }}
             onPress={onShare}
           >
