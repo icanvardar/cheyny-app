@@ -18,12 +18,13 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.sigma.cheyny"
+      "bundleIdentifier": "com.sigma.cheyny",
+      "buildNumber": "4.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF",
+        "backgroundColor": "#FFFFFF"
       },
       "permissions": [
         "CAMERA",
@@ -32,7 +33,8 @@
         "com.sec.android.provider.badge.permission.READ",
         "com.sec.android.provider.badge.permission.WRITE"
       ],
-      "package": "cheyny.cheyny.com"
+      "package": "com.sigma.cheyny",
+      "versionCode": 4
     },
     "web": {
       "favicon": "./assets/favicon.png"
