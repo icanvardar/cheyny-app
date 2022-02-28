@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.sigma.cheyny",
-      "buildNumber": "5.0.0"
+      "buildNumber": "6.0.0"
     },
     "android": {
       "adaptiveIcon": {
@@ -34,7 +34,7 @@
         "com.sec.android.provider.badge.permission.WRITE"
       ],
       "package": "com.sigma.cheyny",
-      "versionCode": 5
+      "versionCode": 6
     },
     "web": {
       "favicon": "./assets/favicon.png"
