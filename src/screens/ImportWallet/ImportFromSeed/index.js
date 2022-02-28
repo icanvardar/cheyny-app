@@ -67,7 +67,7 @@ const ImportFromSeed = ({ navigation }) => {
   }, [password, repeatPassword, isChecked, secretRecoveryPhrase]);
 
   return (
-    <Container style={styles.container}>
+    <Container isKeyable={true} style={styles.container}>
       {/* Upper components */}
       <View>
         <Brand hasBackButton={true} />

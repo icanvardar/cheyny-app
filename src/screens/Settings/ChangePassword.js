@@ -50,7 +50,7 @@ const ChangePassword = ({ navigation }) => {
   }, [currentPassword, newPassword, repeatPassword]);
 
   return (
-    <Container>
+    <Container isKeyable={true}>
       <AdvancedHeader hasDrawerButton={false} />
       <CustomText></CustomText>
       <InputField

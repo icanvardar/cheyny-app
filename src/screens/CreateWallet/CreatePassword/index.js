@@ -63,7 +63,7 @@ const CreatePassword = ({ navigation }) => {
   }, [password, repeatPassword, isChecked]);
 
   return (
-    <Container style={styles.container}>
+    <Container isKeyable={true} style={styles.container}>
       {/* Upper components */}
       <View>
         <Brand hasBackButton={true} />

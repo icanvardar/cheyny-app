@@ -10,13 +10,33 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { SIZES } from "../../constants";
 
-const Container = ({ children, hasPaddingHorizontal = false, style = {} }) => {
+const Container = ({
+  children,
+  hasPaddingHorizontal = false,
+  style = {},
+  isKeyable = false,
+}) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      {isKeyable ? (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <SafeAreaView
+            style={[
+              {
+                flex: 1,
+                paddingVertical: Platform.OS === "android" ? 18 : 0,
+                paddingHorizontal: SIZES.paddingHorizontal,
+              },
+              style,
+            ]}
+          >
+            {children}
+          </SafeAreaView>
+        </TouchableWithoutFeedback>
+      ) : (
         <SafeAreaView
           style={[
             {
@@ -29,7 +49,7 @@ const Container = ({ children, hasPaddingHorizontal = false, style = {} }) => {
         >
           {children}
         </SafeAreaView>
-      </TouchableWithoutFeedback>
+      )}
     </KeyboardAvoidingView>
   );
 };
